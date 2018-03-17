@@ -1,0 +1,39 @@
+.board {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: beige;
+}
+
+.field {
+    width: 10%;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.field:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.field.initial:hover {
+    cursor: pointer;
+    background-color: #efefef;
+}
+
+.field.passive {
+    background-color: saddlebrown;
+    cursor: pointer;
+}
+
+.field.passive:active {
+    opacity: 0.7;
+}
+
+.field.selected {
+    background-color: darkgreen;
+}
+
+.field.passive.possible {
+    background-color: yellow;
+}
