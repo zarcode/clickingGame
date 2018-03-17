@@ -4,18 +4,18 @@ import {combineReducers, createStore, applyMiddleware} from "redux";
 import user from "./reducers/user";
 // import type {Middleware} from "redux";
 
-export default (navigationMiddleware) => {
-    // const epicMiddleware = createEpicMiddleware(rootEpic);
+export default navigationMiddleware => {
+	// const epicMiddleware = createEpicMiddleware(rootEpic);
 
-    const middleWares = [];
+	const middleWares = [];
 
-    if (process.env.NODE_ENV) {
-        middleWares.push(logger);
-    }
+	if (process.env.NODE_ENV) {
+		middleWares.push(logger);
+	}
 
-    const appReducer = combineReducers({
-        user
-    });
+	const appReducer = combineReducers({
+		user
+	});
 
-    return createStore(appReducer, applyMiddleware(...middleWares));
+	return createStore(appReducer, applyMiddleware(...middleWares));
 };
