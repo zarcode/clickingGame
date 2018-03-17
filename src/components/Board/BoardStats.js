@@ -8,7 +8,7 @@ const BoardStats = ({ movesLeft, time, lives, level }) => {
         <div className="stats">
             <h3>Game Stats</h3>
             <div className="stats-detail">
-                Timer: <strong>{`${time} s`}</strong>
+                Timer: <strong>{`${time}seconds`}</strong>
             </div>
             <div className="stats-detail">
                 Left to click: <strong>{movesLeft}</strong>

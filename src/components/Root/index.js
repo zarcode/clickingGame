@@ -9,6 +9,9 @@ class Root extends Component {
 		return (
 			<div className="App">
 				<Board />
+				<div className="score">
+					Score
+				</div>
 			</div>
 		);
 	}

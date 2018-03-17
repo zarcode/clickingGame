@@ -1,8 +1,19 @@
+.board-wrap {
+    flex: 5;
+}
+
 .board {
     display: flex;
     flex-wrap: wrap;
     border: 1px solid rgba(0,0,0,0.1);
     background-color: beige;
+}
+
+@media screen and (min-width: 100vh) {
+    .board-wrap {
+        min-width: calc(100vh - 61px);
+        max-width: calc(100vh - 61px);
+    }
 }
 
 .field {

@@ -1,3 +1,18 @@
 .App {
     padding: 10px;
 }
+
+.score {
+    width: 100%;
+}
+
+@media screen and (min-width: 100vh) {
+    .App {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .score {
+        flex: 1;
+        min-width: 200px;
+    }
+}
