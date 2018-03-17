@@ -1,0 +1,15 @@
+.stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+}
+
+.stats h3 {
+    color: red;
+    margin: 0;
+}
+
+.stats-detail {
+    font-size: 0.9em;
+}

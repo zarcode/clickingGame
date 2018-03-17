@@ -81,6 +81,6 @@ class Board {
 	};
 }
 
-export const getBoard = size => {
+export const getBoardApi = size => {
 	return new Board(size);
 };
