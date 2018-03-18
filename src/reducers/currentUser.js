@@ -3,8 +3,7 @@ import {startLevel} from "../utils";
 export const defaultUser = {
     username: "default",
     maxLevel: startLevel,
-    // maxLevel: 10,
-    level: startLevel,
+    // level: startLevel,
     lives: startLevel
 };
 
@@ -23,13 +22,13 @@ export default (state = defaultUser, action) => {
             return {
                 ...state,
                 maxLevel: action.level + 1,
-                level: action.level + 1,
+                // level: action.level + 1,
                 lives: action.lives + 1,
             };
         case "RESET_USERS_GAME":
             return {
                 ...state,
-                level: startLevel,
+                // level: startLevel,
                 lives: startLevel,
             };
         default:

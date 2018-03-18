@@ -37,6 +37,16 @@ class Board extends Component {
         clearInterval(this.timer);
     }
 
+    componentDidMount() {
+        this.setState({
+            level: this.props.currentUser.maxLevel
+        })
+    }
+
+    // componentWillRecaiveProps(nextProps) {
+    //     if(nextProps.)
+    // }
+
 	startNewLevel = (field, level) => {
         if (!this.state.started) {
             // // clear counter
@@ -60,6 +70,10 @@ class Board extends Component {
         clearInterval(this.timer);
         // alert("Bravo!");
         this.props.completeLevel(level, lives);
+
+        this.setState({
+            level: level + 1
+        })
 	};
 
 	handleLevelFail = (level, lives) => {
@@ -132,23 +146,27 @@ class Board extends Component {
 	};
 
     selectLevel = (event) => {
-        this.setState({level: event.target.value});
+        this.setState({level: parseInt(event.target.value)});
     };
 
 	render() {
-        const { level, lives, maxLevel } = this.props.currentUser;
+        const { lives, maxLevel } = this.props.currentUser;
+        const { level } = this.state;
 
 		return (
 		    <div className="board-wrap">
                 <div className="user-bar">
-                    <select
-                        onChange={this.selectLevel}
-                        value={this.state.level}
-                    >
-                    {Array.from({length: (maxLevel - (startLevel - 1))}, (v, i) => maxLevel - i ).map((item) =>
-                        <option key={item}>{item}</option>
-                    )}
-                    </select>
+                    <label>
+                        Select level:
+                        <select
+                            onChange={this.selectLevel}
+                            value={this.state.level}
+                        >
+                        {Array.from({length: (maxLevel - (startLevel - 1))}, (v, i) => maxLevel - i ).map((item) =>
+                            <option key={item} value={item}>{item}</option>
+                        )}
+                        </select>
+                    </label>
                 </div>
                 <div className="board">
                     {this.board.map(x =>

@@ -11,8 +11,8 @@
 
 @media screen and (min-width: 100vh) {
     .board-wrap {
-        min-width: calc(100vh - 61px);
-        max-width: calc(100vh - 61px);
+        min-width: calc(100vh - 100px);
+        max-width: calc(100vh - 100px);
     }
 }
 
@@ -47,4 +47,12 @@
 
 .field.passive.possible {
     background-color: yellow;
+}
+
+.user-bar {
+    padding: 10px 0;
+}
+
+.user-bar select {
+    margin-left: 10px;
 }
