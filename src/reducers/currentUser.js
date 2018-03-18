@@ -1,10 +1,9 @@
-import config from "../config.json";
-
-const startLevel = Number.isInteger(config.startLevel) && config.startLevel < 100 && config.startLevel > 0?config.startLevel:1;
+import {startLevel} from "../utils";
 
 export const defaultUser = {
     username: "default",
     maxLevel: startLevel,
+    // maxLevel: 10,
     level: startLevel,
     lives: startLevel
 };

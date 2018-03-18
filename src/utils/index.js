@@ -1,3 +1,5 @@
+import config from "../config.json";
+
 const isEqual = require("lodash/isEqual");
 
 class Board {
@@ -84,3 +86,5 @@ class Board {
 export const getBoardApi = size => {
 	return new Board(size);
 };
+
+export const startLevel = Number.isInteger(config.startLevel) && config.startLevel < 100 && config.startLevel > 0?config.startLevel:1;

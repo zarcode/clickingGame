@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 import "./Board.css";
-import {getBoardApi} from "../../utils";
+import {getBoardApi, startLevel} from "../../utils";
 import BoardStats from "./BoardStats";
 
 class Board extends Component {
@@ -37,7 +37,7 @@ class Board extends Component {
         clearInterval(this.timer);
     }
 
-	startLevel = (field, level) => {
+	startNewLevel = (field, level) => {
         if (!this.state.started) {
             // // clear counter
             // clearInterval(this.timer);
@@ -128,14 +128,28 @@ class Board extends Component {
 			}
 		);
 
-        this.startLevel(field, level)
+        this.startNewLevel(field, level)
 	};
 
+    selectLevel = (event) => {
+        this.setState({level: event.target.value});
+    };
+
 	render() {
-        const { level, lives } = this.props.currentUser;
+        const { level, lives, maxLevel } = this.props.currentUser;
 
 		return (
 		    <div className="board-wrap">
+                <div className="user-bar">
+                    <select
+                        onChange={this.selectLevel}
+                        value={this.state.level}
+                    >
+                    {Array.from({length: (maxLevel - (startLevel - 1))}, (v, i) => maxLevel - i ).map((item) =>
+                        <option key={item}>{item}</option>
+                    )}
+                    </select>
+                </div>
                 <div className="board">
                     {this.board.map(x =>
                         this.board.map(y => {
