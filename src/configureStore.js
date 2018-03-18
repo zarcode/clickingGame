@@ -5,7 +5,7 @@ import users from "./reducers/users";
 import currentUser from "./reducers/currentUser";
 // import type {Middleware} from "redux";
 
-export default navigationMiddleware => {
+export default configureStore => {
 	// const epicMiddleware = createEpicMiddleware(rootEpic);
 
 	const middleWares = [];
@@ -16,7 +16,7 @@ export default navigationMiddleware => {
 
 	const appReducer = combineReducers({
 		users,
-        currentUser
+		currentUser
 	});
 
 	return createStore(appReducer, applyMiddleware(...middleWares));

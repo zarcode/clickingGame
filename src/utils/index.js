@@ -62,6 +62,7 @@ class Board {
 	isPossibleMove = (currF, nextF) => {
 		if (!(this.isInside(nextF[0]) && this.isInside(nextF[1]))) return false;
 
+		// hypotenuse
 		const hypo =
 			(nextF[0] - currF[0]) * (nextF[0] - currF[0]) +
 			(nextF[1] - currF[1]) * (nextF[1] - currF[1]);
@@ -73,9 +74,7 @@ class Board {
 		if (solution.length !== level) return false;
 
 		return solution.reduce((acc, curr, index, array) => {
-			// const allPossible = this.getPossibleMovements(curr);
 			if (index + 1 <= array.length - 1)
-				// return acc && this.isFieldInArray(array[index + 1], allPossible)
 				return acc && this.isPossibleMove(curr, array[index + 1]);
 
 			return acc;
@@ -87,4 +86,9 @@ export const getBoardApi = size => {
 	return new Board(size);
 };
 
-export const startLevel = Number.isInteger(config.startLevel) && config.startLevel < 100 && config.startLevel > 0?config.startLevel:1;
+export const startLevel =
+	Number.isInteger(config.startLevel) &&
+	config.startLevel < 100 &&
+	config.startLevel > 0
+		? config.startLevel
+		: 1;

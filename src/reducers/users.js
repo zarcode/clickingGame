@@ -1,16 +1,14 @@
 import {defaultUser} from "./currentUser";
 
-const defaultState = {
-};
+const defaultState = {};
 
 defaultState[defaultUser.username] = defaultUser;
 
-
 export default (state = defaultState, action) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
+	switch (action.type) {
+		default:
+			return state;
+	}
 };
 
 // const defaultState = [
@@ -30,5 +28,3 @@ export default (state = defaultState, action) => {
 //             return state;
 //     }
 // };
-
-
