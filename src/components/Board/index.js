@@ -19,8 +19,8 @@ class Board extends Component {
 		};
 
 		this.state = {
-		    ...this.initialState,
-            level: startLevel
+			...this.initialState,
+			level: startLevel
 		};
 
 		// this.level = props.user.level; // current level
@@ -49,10 +49,10 @@ class Board extends Component {
 	// todo reconsider this
 	// componentWillReceiveProps(nextProps) {
 	//     if(nextProps.currentUser.maxLevel !== this.props.currentUser.maxLevel) {
-     //        this.setState({
-     //            level: nextProps.currentUser.maxLevel
-     //        });
-     //    }
+	//        this.setState({
+	//            level: nextProps.currentUser.maxLevel
+	//        });
+	//    }
 	// }
 
 	startNewLevel = (field, level) => {
@@ -94,9 +94,9 @@ class Board extends Component {
 		} else {
 			this.props.failGame();
 			// reset to start level
-            this.setState({
-                level: startLevel
-            });
+			this.setState({
+				level: startLevel
+			});
 		}
 	};
 
