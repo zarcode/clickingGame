@@ -1,7 +1,8 @@
 import logger from "redux-logger";
 import {combineReducers, createStore, applyMiddleware} from "redux";
 
-import user from "./reducers/user";
+import users from "./reducers/users";
+import currentUser from "./reducers/currentUser";
 // import type {Middleware} from "redux";
 
 export default navigationMiddleware => {
@@ -14,7 +15,8 @@ export default navigationMiddleware => {
 	}
 
 	const appReducer = combineReducers({
-		user
+		users,
+        currentUser
 	});
 
 	return createStore(appReducer, applyMiddleware(...middleWares));

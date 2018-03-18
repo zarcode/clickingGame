@@ -9,18 +9,19 @@ class Board extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			started: false, // is level started
-			generated: [], // generated fields
-			selected: [], // fields user choose
-			possible: [], // next possible fileds to select
-			moves: 0, // moves count,
+		this.initialState = {
+            started: false, // is level started
+            generated: [], // generated fields
+            selected: [], // fields user choose
+            possible: [], // next possible fileds to select
+            moves: 0, // moves count,
             time: 0  // current time spent on this level
 		};
 
-		// todo: this should come form props
-        this.level = 5; // current level
-        this.lives = 5; // number of lives
+		this.state = { ...this.initialState};
+
+        // this.level = props.user.level; // current level
+        // this.lives = props.user.lives; // number of lives
 
 		this.size = 10; // board size
 		this.board = []; // board generator array
@@ -36,8 +37,11 @@ class Board extends Component {
         clearInterval(this.timer);
     }
 
-	startLevel = (field) => {
+	startLevel = (field, level) => {
         if (!this.state.started) {
+            // // clear counter
+            // clearInterval(this.timer);
+
             // run timer
             this.timer = setInterval(() => {
                 this.setState({ time: this.state.time + 1 })
@@ -46,48 +50,72 @@ class Board extends Component {
             // init board
             this.setState({
                 started: true,
-                generated: this.boardApi.generateBoard(this.level, field)
+                generated: this.boardApi.generateBoard(level, field)
             });
         }
-    }
+    };
 
-	fieldClick = (field, isPossible) => {
+	handleLevelComplete = (level, lives) => {
+        // reset counter
+        clearInterval(this.timer);
+        // alert("Bravo!");
+        this.props.completeLevel(level, lives);
+	};
+
+	handleLevelFail = (level, lives) => {
+        // reset counter
+        clearInterval(this.timer);
+        alert("You are out of moves");
+        const newLives = lives - (level - this.state.moves);
+        if(newLives > 0) {
+            this.props.failLevel(newLives);
+        } else {
+            this.props.failGame();
+        }
+	};
+
+	fieldClick = (field, level, lives, isPossible) => {
 		// if game started let user click only "possible" fields
 		if (!isPossible && this.state.started) return false;
 
-		const moves = this.state.moves + 1;
-
 		// successful select - push field to an array
-		const selected = this.state.selected;
+		const selected = [...this.state.selected];
 		selected.push(field);
 
-		// check moves number
-		if (moves === this.level) {
-			if (this.boardApi.checkSolution(this.level, selected)) {
-				// level success
-				alert("Bravo!");
-                clearInterval(this.timer);
-			} else {
-				// level fail
-				alert("You are out of moves");
-			}
-
-			// reset board
-			this.setState({
-				started: false,
-				generated: [],
-				selected: [],
-				possible: [],
-				moves: 0
-			});
-
-			return false;
+        // get all possible moves and substract the selected ones
+		let possible = [];
+        if(this.state.started) {
+            possible = this.boardApi.getPossibleMovements(field)
+				.filter(x => {
+                    const notSelected = this.state.generated.filter((g) => !this.boardApi.isFieldInArray(g, selected));
+                    return this.boardApi.isFieldInArray(x, notSelected);
+                    // return this.boardApi.isFieldInArray(x, this.state.generated) && !this.boardApi.isFieldInArray(x, selected);
+            	});
+        } else {
+            possible = this.boardApi.getPossibleMovements(field);
 		}
 
-		// get all possible moves and substract the selected ones
-		const possible = this.boardApi
-			.getPossibleMovements(field)
-			.filter(x => !this.boardApi.isFieldInArray(x, selected));
+        const moves = this.state.moves + 1;
+
+		// if no possible moves left
+		if(possible.length === 0 && (level > moves)) {
+            // level fail
+            this.handleLevelFail(level, lives);
+            // reset board
+            this.setState(this.initialState);
+
+            return false;
+		}
+
+		// last move
+        if (moves === level) {
+		    // level success
+            this.handleLevelComplete(level, lives);
+            // reset board
+            this.setState(this.initialState);
+
+            return false;
+        }
 
 		// save to state
 		this.setState(
@@ -100,10 +128,12 @@ class Board extends Component {
 			}
 		);
 
-        this.startLevel(field)
+        this.startLevel(field, level)
 	};
 
 	render() {
+        const { level, lives } = this.props.currentUser;
+
 		return (
 		    <div className="board-wrap">
                 <div className="board">
@@ -133,7 +163,7 @@ class Board extends Component {
                             return (
                                 <div
                                     className={`field${classes}`}
-                                    onClick={() => this.fieldClick(field, isPossible)}
+                                    onClick={() => this.fieldClick(field, level, lives, isPossible)}
                                     key={x + "" + y}
                                 />
                             );
@@ -141,9 +171,9 @@ class Board extends Component {
                     )}
                 </div>
                 <BoardStats
-                    movesLeft={this.state.generated.length?this.state.generated.length - this.state.moves:this.level}
-                    lives={this.lives}
-                    level={this.level}
+                    movesLeft={this.state.generated.length?this.state.generated.length - this.state.moves:level}
+                    lives={lives}
+                    level={level}
                     time={this.state.time}
                 />
             </div>
@@ -151,10 +181,18 @@ class Board extends Component {
 	}
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+    return {
+        users: state.users,
+		currentUser: state.currentUser,
+    }
+}
 
 const mapDispatchToProps = dispatch => ({
-	// onRefresh: () => dispatch({type: "KITTY_LIST_REQUEST", refresh: true}),
+	initNewUser: (user) => dispatch({type: "INIT_NEW_USER", user }),
+    failLevel: (lives) => dispatch({type: "USER_FAILED_LEVEL", lives  }),
+	completeLevel: (level, lives) => dispatch({type: "USER_COMPLETED_LEVEL", level, lives  }),
+    failGame: () => dispatch({type: "RESET_USERS_GAME" }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
