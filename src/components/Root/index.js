@@ -6,7 +6,7 @@ import Board from "../Board";
 class Root extends Component {
 	render() {
 		return (
-			<div className="App">
+			<div className="app">
 				<Board />
 				<div className="score">Score</div>
 			</div>
