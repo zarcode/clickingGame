@@ -1,5 +1,6 @@
 .board-wrap {
     flex: 5;
+    padding: 10px;
 }
 
 .board {
@@ -11,13 +12,12 @@
 
 @media screen and (min-width: 100vh) {
     .board-wrap {
-        min-width: calc(100vh - 60px);
-        max-width: calc(100vh - 60px);
+        min-width: calc(100vh - 40px);
+        max-width: calc(100vh - 40px);
     }
 }
 
 .field {
-    width: 10%;
     border: 1px solid rgba(0,0,0,0.1);
 }
 

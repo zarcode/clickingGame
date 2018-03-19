@@ -261,6 +261,9 @@ class Board extends Component {
 							return (
 								<div
 									className={`field${classes}`}
+									style={{
+										width: `${(100/this.size).toFixed(5)}%`
+									}}
 									onClick={() =>
 										this.fieldClick(field, level, lives, isPossible)
 									}
