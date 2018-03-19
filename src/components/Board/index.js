@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 // import { purgeStoredState } from 'redux-persist'
 // import { persistConfig } from  "../../configureStore"
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'
+import {confirmAlert} from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 import "./Board.css";
 import {getBoardApi, startLevel} from "../../utils";
@@ -46,51 +46,54 @@ class Board extends Component {
 	}
 
 	componentDidMount() {
-        this.showLevelChoice();
-		// this.setState({
-		// 	level: this.props.currentUser.maxLevel
-		// });
+		this.showLevelChoice();
 	}
 
 	showLevelChoice = () => {
-        const maxLevel = this.props.currentUser.maxLevel;
-        confirmAlert({
-            customUI: ({ onClose }) => {
-                return (
-                    <div className="react-confirm-alert-body">
-                        <h1>Choose Level</h1>
-                        <div>
-                            <label>
-                                Level:
-                                <select
-                                    ref={(input) => { this.chooseLevel = input; }}
+		const maxLevel = this.props.currentUser.maxLevel;
+		confirmAlert({
+			customUI: ({onClose}) => {
+				return (
+					<div className="react-confirm-alert-body">
+						<h1>Choose Level</h1>
+						<div>
+							<label>
+								Level:
+								<select
+									ref={input => {
+										this.chooseLevel = input;
+									}}
 								>
-                                    {Array.from(
-                                        {length: maxLevel - (startLevel - 1)},
-                                        (v, i) => maxLevel - i
-                                    ).map(item => (
-                                        <option key={item} value={item}>
-                                            {item}
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
-                        </div>
-                        <div className="react-confirm-alert-button-group">
-                            <button onClick={() => {
-                                this.selectLevel(parseInt(this.chooseLevel.value, 10))
-                            	onClose()
-                            }}>OK</button>
-                        </div>
-                    </div>
-                )
-            }
-        });
+									{Array.from(
+										{length: maxLevel - (startLevel - 1)},
+										(v, i) => maxLevel - i
+									).map(item => (
+										<option key={item} value={item}>
+											{item}
+										</option>
+									))}
+								</select>
+							</label>
+						</div>
+						<div className="react-confirm-alert-button-group">
+							<button
+								onClick={() => {
+									this.selectLevel(parseInt(this.chooseLevel.value, 10));
+									onClose();
+								}}
+							>
+								OK
+							</button>
+						</div>
+					</div>
+				);
+			}
+		});
 	};
 
-    selectLevel = level => {
-        this.setState({...this.initialState, level});
-    };
+	selectLevel = level => {
+		this.setState({...this.initialState, level});
+	};
 
 	startNewLevel = (field, level) => {
 		// run timer
@@ -124,14 +127,13 @@ class Board extends Component {
 		const newLives = lives - (level - moves);
 		if (newLives > 0) {
 			this.props.failLevel(newLives);
-
-        } else {
+		} else {
 			this.props.failGame();
 
-            // reset to start level
-            this.setState({
-                level: startLevel
-            });
+			// reset to start level
+			this.setState({
+				level: startLevel
+			});
 		}
 	};
 
@@ -163,24 +165,24 @@ class Board extends Component {
 		// if no possible moves left
 		if (possible.length === 0 && level > moves) {
 			// level fail
-            confirmAlert({
-                title: 'End game',
-                message: 'You lost this game. Do you want to play again?',
-                buttons: [
-                    {
-                        label: 'No',
-                        onClick: () => {}
-                    },
-                    {
-                        label: 'Yes',
-                        onClick: () => {
-                            this.handleLevelFail(level, lives, moves);
-                            // reset board
-                            this.setState(this.initialState);
+			confirmAlert({
+				title: "End game",
+				message: "You lost this game. Do you want to play again?",
+				buttons: [
+					{
+						label: "No",
+						onClick: () => {}
+					},
+					{
+						label: "Yes",
+						onClick: () => {
+							this.handleLevelFail(level, lives, moves);
+							// reset board
+							this.setState(this.initialState);
 						}
-                    },
-                ]
-            });
+					}
+				]
+			});
 
 			return false;
 		}
@@ -188,24 +190,24 @@ class Board extends Component {
 		// last move
 		if (moves === level) {
 			// level success
-            confirmAlert({
-                title: `You have completed level: ${level}`,
-                message: 'Do you want to play next level?',
-                buttons: [
-                    {
-                        label: 'No',
-                        onClick: () => {}
-                    },
-                    {
-                        label: 'Yes',
-                        onClick: () => {
-                            this.handleLevelComplete(level, lives);
-                            // reset board
-                            this.setState(this.initialState);
+			confirmAlert({
+				title: `You have completed level: ${level}`,
+				message: "Do you want to play next level?",
+				buttons: [
+					{
+						label: "No",
+						onClick: () => {}
+					},
+					{
+						label: "Yes",
+						onClick: () => {
+							this.handleLevelComplete(level, lives);
+							// reset board
+							this.setState(this.initialState);
 						}
-                    },
-                ]
-            });
+					}
+				]
+			});
 
 			return false;
 		}
@@ -221,9 +223,9 @@ class Board extends Component {
 			}
 		);
 
-        if (!this.state.started) {
-            this.startNewLevel(field, level);
-        }
+		if (!this.state.started) {
+			this.startNewLevel(field, level);
+		}
 	};
 
 	render() {
@@ -284,16 +286,16 @@ class Board extends Component {
 }
 
 Board.propTypes = {
-    users: PropTypes.object.isRequired,
-    currentUser: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        maxLevel: PropTypes.number.isRequired,
-        lives: PropTypes.number.isRequired
-    }).isRequired,
-    initNewUser: PropTypes.func.isRequired,
-    failLevel: PropTypes.func.isRequired,
-    completeLevel: PropTypes.func.isRequired,
-    failGame: PropTypes.func.isRequired
+	users: PropTypes.object.isRequired,
+	currentUser: PropTypes.shape({
+		username: PropTypes.string.isRequired,
+		maxLevel: PropTypes.number.isRequired,
+		lives: PropTypes.number.isRequired
+	}).isRequired,
+	initNewUser: PropTypes.func.isRequired,
+	failLevel: PropTypes.func.isRequired,
+	completeLevel: PropTypes.func.isRequired,
+	failGame: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

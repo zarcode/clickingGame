@@ -13,10 +13,10 @@ export default (state = defaultUser, action) => {
 				...action.user
 			};
 		case "INIT_NEW_GAME":
-            return {
-                ...state,
-                lives: 1
-            };
+			return {
+				...state,
+				lives: 1
+			};
 		case "USER_FAILED_LEVEL":
 			return {
 				...state,
@@ -25,7 +25,8 @@ export default (state = defaultUser, action) => {
 		case "USER_COMPLETED_LEVEL":
 			return {
 				...state,
-				maxLevel: (action.level + 1 > state.maxLevel)?action.level + 1:state.maxLevel,
+				maxLevel:
+					action.level + 1 > state.maxLevel ? action.level + 1 : state.maxLevel,
 				// level: action.level + 1,
 				lives: action.lives + 1
 			};

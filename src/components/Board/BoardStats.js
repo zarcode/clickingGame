@@ -25,9 +25,9 @@ const BoardStats = ({movesLeft, time, lives, level}) => {
 
 BoardStats.propTypes = {
 	movesLeft: PropTypes.number.isRequired,
-    time: PropTypes.number.isRequired,
-    lives: PropTypes.number.isRequired,
-    level: PropTypes.number.isRequired,
+	time: PropTypes.number.isRequired,
+	lives: PropTypes.number.isRequired,
+	level: PropTypes.number.isRequired
 };
 
 export default BoardStats;
