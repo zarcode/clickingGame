@@ -56,21 +56,16 @@ class Board extends Component {
 	// }
 
 	startNewLevel = (field, level) => {
-		if (!this.state.started) {
-			// // clear counter
-			// clearInterval(this.timer);
+		// run timer
+		this.timer = setInterval(() => {
+			this.setState({time: this.state.time + 1});
+		}, 1000);
 
-			// run timer
-			this.timer = setInterval(() => {
-				this.setState({time: this.state.time + 1});
-			}, 1000);
-
-			// init board
-			this.setState({
-				started: true,
-				generated: this.boardApi.generateBoard(level, field)
-			});
-		}
+		// init board
+		this.setState({
+			started: true,
+			generated: this.boardApi.generateBoard(level, field)
+		});
 	};
 
 	handleLevelComplete = (level, lives) => {
@@ -156,7 +151,9 @@ class Board extends Component {
 			}
 		);
 
-		this.startNewLevel(field, level);
+        if (!this.state.started) {
+            this.startNewLevel(field, level);
+        }
 	};
 
 	selectLevel = event => {
