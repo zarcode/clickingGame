@@ -104,7 +104,7 @@ class Board extends Component {
 		// init board
 		this.setState({
 			started: true,
-			generated: this.boardApi.generateBoard(level, field)
+			generated: this.boardApi.generateBoard(level + 1, field)
 		});
 	};
 

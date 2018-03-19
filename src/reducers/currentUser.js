@@ -12,11 +12,6 @@ export default (state = defaultUser, action) => {
 			return {
 				...action.user
 			};
-		case "INIT_NEW_GAME":
-			return {
-				...state,
-				lives: 1
-			};
 		case "USER_FAILED_LEVEL":
 			return {
 				...state,
