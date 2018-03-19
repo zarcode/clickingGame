@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
 
 import "./Board.css";
 import {getBoardApi, startLevel} from "../../utils";
@@ -157,7 +158,7 @@ class Board extends Component {
 	};
 
 	selectLevel = event => {
-		this.setState({level: parseInt(event.target.value)});
+		this.setState({level: parseInt(event.target.value, 10)});
 	};
 
 	render() {
@@ -231,6 +232,19 @@ class Board extends Component {
 		);
 	}
 }
+
+Board.propTypes = {
+    users: PropTypes.object.isRequired,
+    currentUser: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        maxLevel: PropTypes.number.isRequired,
+        lives: PropTypes.number.isRequired
+    }).isRequired,
+    initNewUser: PropTypes.func.isRequired,
+    failLevel: PropTypes.func.isRequired,
+    completeLevel: PropTypes.func.isRequired,
+    failGame: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => {
 	return {

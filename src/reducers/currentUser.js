@@ -3,7 +3,6 @@ import {startLevel} from "../utils";
 export const defaultUser = {
 	username: "default",
 	maxLevel: startLevel,
-	// level: startLevel,
 	lives: startLevel
 };
 
