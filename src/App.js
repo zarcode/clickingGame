@@ -3,6 +3,7 @@ import configureStore from "./configureStore";
 import {Provider} from "react-redux";
 import {PersistGate} from "redux-persist/integration/react";
 
+import "normalize.css/normalize.css";
 import "./App.css";
 import Root from "./components/Root";
 

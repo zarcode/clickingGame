@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
 
 import "./Root.css";
 import Board from "../Board";
@@ -15,10 +14,4 @@ class Root extends Component {
 	}
 }
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = dispatch => ({
-	// onRefresh: () => dispatch({type: "KITTY_LIST_REQUEST", refresh: true}),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Root);
+export default Root;
