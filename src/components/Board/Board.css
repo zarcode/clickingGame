@@ -11,8 +11,8 @@
 
 @media screen and (min-width: 100vh) {
     .board-wrap {
-        min-width: calc(100vh - 100px);
-        max-width: calc(100vh - 100px);
+        min-width: calc(100vh - 60px);
+        max-width: calc(100vh - 60px);
     }
 }
 
@@ -47,16 +47,6 @@
 
 .field.passive.possible {
     background-color: yellow;
-}
-
-.user-bar {
-    display: flex;
-    height: 40px;
-    align-items: center;
-}
-
-.user-bar select {
-    margin-left: 10px;
 }
 
 .purgeButton {

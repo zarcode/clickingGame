@@ -46,10 +46,51 @@ class Board extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
-			level: this.props.currentUser.maxLevel
-		});
+        this.showLevelChoice();
+		// this.setState({
+		// 	level: this.props.currentUser.maxLevel
+		// });
 	}
+
+	showLevelChoice = () => {
+        const maxLevel = this.props.currentUser.maxLevel;
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className="react-confirm-alert-body">
+                        <h1>Choose Level</h1>
+                        <div>
+                            <label>
+                                Level:
+                                <select
+                                    ref={(input) => { this.chooseLevel = input; }}
+								>
+                                    {Array.from(
+                                        {length: maxLevel - (startLevel - 1)},
+                                        (v, i) => maxLevel - i
+                                    ).map(item => (
+                                        <option key={item} value={item}>
+                                            {item}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                        </div>
+                        <div className="react-confirm-alert-button-group">
+                            <button onClick={() => {
+                                this.selectLevel(parseInt(this.chooseLevel.value, 10))
+                            	onClose()
+                            }}>OK</button>
+                        </div>
+                    </div>
+                )
+            }
+        });
+	};
+
+    selectLevel = level => {
+        this.setState({...this.initialState, level});
+    };
 
 	startNewLevel = (field, level) => {
 		// run timer
@@ -185,31 +226,12 @@ class Board extends Component {
         }
 	};
 
-	selectLevel = event => {
-        this.setState({...this.initialState, level: parseInt(event.target.value, 10)});
-	};
-
 	render() {
-		const {lives, maxLevel} = this.props.currentUser;
+		const {lives} = this.props.currentUser;
 		const {level} = this.state;
 
 		return (
 			<div className="board-wrap">
-				<div className="user-bar">
-					<label>
-						Select level:
-						<select onChange={this.selectLevel} value={this.state.level}>
-							{Array.from(
-								{length: maxLevel - (startLevel - 1)},
-								(v, i) => maxLevel - i
-							).map(item => (
-								<option key={item} value={item}>
-									{item}
-								</option>
-							))}
-						</select>
-					</label>
-				</div>
 				<div className="board">
 					{this.board.map(x =>
 						this.board.map(y => {
