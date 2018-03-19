@@ -11,7 +11,7 @@ const appReducer = combineReducers({
 	currentUser
 });
 
-const persistConfig = {
+export const persistConfig = {
 	key: "root",
 	storage
 };

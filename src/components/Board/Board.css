@@ -58,3 +58,7 @@
 .user-bar select {
     margin-left: 10px;
 }
+
+.purgeButton {
+    margin-left: auto;
+}

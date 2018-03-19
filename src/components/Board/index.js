@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import { purgeStoredState } from 'redux-persist'
+import { persistConfig } from  "../../configureStore"
 
 import "./Board.css";
 import {getBoardApi, startLevel} from "../../utils";
@@ -46,15 +48,6 @@ class Board extends Component {
 			level: this.props.currentUser.maxLevel
 		});
 	}
-
-	// todo reconsider this
-	// componentWillReceiveProps(nextProps) {
-	//     if(nextProps.currentUser.maxLevel !== this.props.currentUser.maxLevel) {
-	//        this.setState({
-	//            level: nextProps.currentUser.maxLevel
-	//        });
-	//    }
-	// }
 
 	startNewLevel = (field, level) => {
 		// run timer
@@ -181,6 +174,10 @@ class Board extends Component {
 							))}
 						</select>
 					</label>
+					{/*<button*/}
+						{/*className="purgeButton"*/}
+						{/*onClick={() => purgeStoredState(persistConfig)}*/}
+					{/*>Purge LocalStorage</button>*/}
 				</div>
 				<div className="board">
 					{this.board.map(x =>
