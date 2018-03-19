@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import { purgeStoredState } from 'redux-persist'
-import { persistConfig } from  "../../configureStore"
+// import { purgeStoredState } from 'redux-persist'
+// import { persistConfig } from  "../../configureStore"
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import "./Board.css";
 import {getBoardApi, startLevel} from "../../utils";
@@ -65,7 +67,7 @@ class Board extends Component {
 	handleLevelComplete = (level, lives) => {
 		// reset counter
 		clearInterval(this.timer);
-		// alert("Bravo!");
+
 		this.props.completeLevel(level, lives);
 
 		this.setState({
@@ -76,16 +78,19 @@ class Board extends Component {
 	handleLevelFail = (level, lives, moves) => {
 		// reset counter
 		clearInterval(this.timer);
-		alert("You are out of moves");
+		// alert("You are out of moves");
+
 		const newLives = lives - (level - moves);
 		if (newLives > 0) {
 			this.props.failLevel(newLives);
-		} else {
+
+        } else {
 			this.props.failGame();
-			// reset to start level
-			this.setState({
-				level: startLevel
-			});
+
+            // reset to start level
+            this.setState({
+                level: startLevel
+            });
 		}
 	};
 
@@ -117,9 +122,24 @@ class Board extends Component {
 		// if no possible moves left
 		if (possible.length === 0 && level > moves) {
 			// level fail
-			this.handleLevelFail(level, lives, moves);
-			// reset board
-			this.setState(this.initialState);
+            confirmAlert({
+                title: 'End game',
+                message: 'You lost this game. Do you want to play again?',
+                buttons: [
+                    {
+                        label: 'No',
+                        onClick: () => {}
+                    },
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            this.handleLevelFail(level, lives, moves);
+                            // reset board
+                            this.setState(this.initialState);
+						}
+                    },
+                ]
+            });
 
 			return false;
 		}
@@ -127,9 +147,24 @@ class Board extends Component {
 		// last move
 		if (moves === level) {
 			// level success
-			this.handleLevelComplete(level, lives);
-			// reset board
-			this.setState(this.initialState);
+            confirmAlert({
+                title: `You have completed level: ${level}`,
+                message: 'Do you want to play next level?',
+                buttons: [
+                    {
+                        label: 'No',
+                        onClick: () => {}
+                    },
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            this.handleLevelComplete(level, lives);
+                            // reset board
+                            this.setState(this.initialState);
+						}
+                    },
+                ]
+            });
 
 			return false;
 		}
@@ -151,7 +186,7 @@ class Board extends Component {
 	};
 
 	selectLevel = event => {
-		this.setState({level: parseInt(event.target.value, 10)});
+        this.setState({...this.initialState, level: parseInt(event.target.value, 10)});
 	};
 
 	render() {
@@ -174,10 +209,6 @@ class Board extends Component {
 							))}
 						</select>
 					</label>
-					{/*<button*/}
-						{/*className="purgeButton"*/}
-						{/*onClick={() => purgeStoredState(persistConfig)}*/}
-					{/*>Purge LocalStorage</button>*/}
 				</div>
 				<div className="board">
 					{this.board.map(x =>
