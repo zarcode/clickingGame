@@ -101,10 +101,13 @@ class Board extends Component {
 			this.setState({time: this.state.time + 1});
 		}, 1000);
 
+		const g =  this.boardApi.generateBoard(level + 1, field);
+
+		console.log(g);
 		// init board
 		this.setState({
 			started: true,
-			generated: this.boardApi.generateBoard(level + 1, field)
+			generated: g
 		});
 	};
 

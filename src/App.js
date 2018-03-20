@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import configureStore from "./configureStore";
 import {Provider} from "react-redux";
 import {PersistGate} from "redux-persist/integration/react";
+import {generateBoard} from "./utils/test"
 
 import "normalize.css/normalize.css";
 import "./App.css";

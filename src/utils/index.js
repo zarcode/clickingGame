@@ -1,10 +1,15 @@
 import config from "../config.json";
 
-const isEqual = require("lodash/isEqual");
+const isEqual = (a, b) => {
+    return a[0] === b[0] && a[1] === b[1]
+};
 
 class Board {
 	constructor(size) {
 		this.boardsize = size;
+
+		this.history = [];
+		this.final = [];
 	}
 
 	isInside = coo => {
@@ -37,26 +42,81 @@ class Board {
 		return index !== -1;
 	};
 
-	getRandomField = (array, items) => {
-		const random = items[Math.floor(Math.random() * items.length)];
-
-		if (this.isFieldInArray(random, array)) {
-			return this.getRandomField(array, items);
+	getRandomField = (items) => {
+		if(items.length === 0) {
+			return null;
 		}
+
+		const randomIndex = Math.floor(Math.random()*items.length);
+
+		const random = items[randomIndex];
+
+		const used = this.final[random[0]][random[1]];
+
+		if(used) {
+			return this.getRandomField([...items.slice(0, randomIndex), ...items.slice(randomIndex + 1)])
+		}
+
 		return random;
 	};
 
-	getNext = (array, x) => {
-		const items = this.getPossibleMovements(x);
-		return this.getRandomField(array, items);
-	};
+    getNext = (current) => {
+        const items = this.getPossibleMovements(current);
+        return this.getRandomField(items);
+    };
 
-	generateBoard = (level, start) => {
-		return Array.apply(0, {length: level}).reduce((acc, curr, index) => {
-			return acc.concat([
-				index === 0 ? start : this.getNext(acc, acc[index - 1])
-			]);
-		}, []);
+    getFinalCount = () => {
+        return this.final.reduce((a, b) => a.concat(b), []).reduce((count, x) => {
+            if(x)
+                return count + 1;
+            return count;
+        },0);
+    };
+
+    generateBoard = (level, start) => {
+    	const size = this.boardsize;
+
+        for(let i = 0; i < size; i++) {
+            this.history[i] = [];
+            this.final[i] = [];
+            for(let j = 0; j < size; j++) {
+                this.history[i][j] = undefined;
+                this.final[i][j] = false;
+            }
+        }
+
+        this.history[start[0]][start[1]] = [size, size]; //
+        this.final[start[0]][start[1]] = true;
+
+        let run = true;
+        let current = start;
+        while (run) {
+            if(this.getFinalCount() === level - 1)
+                run = false;
+
+            const next = this.getNext(current);
+
+            if(next) {
+                this.history[next[0]][next[1]] = current;
+                this.final[next[0]][next[1]] = true;
+
+                current = next;
+            } else {
+                const pre = this.history[current[0]][current[1]];
+                if(pre[0] === size && pre[1] === size) {
+                    run = false;
+                }
+                current = pre;
+            }
+        }
+
+        return this.final.map((row, i) => {
+            return row.reduce((acc, point, j) => {
+                if(point) return acc.concat([[i, j]]);
+
+                return acc;
+            }, [])
+        }).filter((x) => x.length !== 0).reduce((a, b) => a.concat(b), [])
 	};
 
 	isPossibleMove = (currF, nextF) => {
