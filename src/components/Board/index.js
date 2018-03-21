@@ -170,7 +170,7 @@ class Board extends Component {
 		const moves = this.state.moves + 1;
 
 		// if no possible moves left
-		if (possible.length === 0 && level > moves) {
+		if (possible.length === 0 && level + 1 > moves) {
 			// level fail
 			confirmAlert({
 				title: "End game",
@@ -195,7 +195,7 @@ class Board extends Component {
 		}
 
 		// last move
-		if (moves === level) {
+		if (moves === level + 1) {
 			// level success
 			confirmAlert({
 				title: `You have completed level: ${level}`,

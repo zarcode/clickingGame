@@ -91,14 +91,12 @@ class Board {
 
 		this.initMatrix(size);
 
-		this.history[start[0]][start[1]] = [size, size];
+		this.history[start[0]][start[1]] = [size, size]; // mark previous point for "start" as [10,10]
 		this.final[start[0]][start[1]] = true;
 
 		let run = true;
 		let current = start;
 		while (run) {
-			if (this.getFinalCount() === level - 1) run = false;
-
 			const next = this.getNext(current);
 
 			if (next) {
@@ -106,12 +104,13 @@ class Board {
 				this.final[next[0]][next[1]] = true;
 				// console.log("newpair", JSON.stringify(current) + " " + JSON.stringify(next));
 				current = next;
+                if (this.getFinalCount() === level) run = false;
 			} else {
-				const pre = this.history[current[0]][current[1]];
-				if (pre[0] === size && pre[1] === size) {
+				const previous = this.history[current[0]][current[1]];
+				if (isEqual(previous, [size, size])) {
 					run = false;
 				}
-				current = pre;
+				current = previous;
 			}
 		}
 
