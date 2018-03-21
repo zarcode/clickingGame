@@ -106,6 +106,7 @@ class Board {
 				current = next;
                 if (this.getFinalCount() === level) run = false;
 			} else {
+                this.final[current[0]][current[1]] = false;
 				const previous = this.history[current[0]][current[1]];
 				if (isEqual(previous, [size, size])) {
 					run = false;
