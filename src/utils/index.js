@@ -73,9 +73,7 @@ class Board {
         },0);
     };
 
-    generateBoard = (level, start) => {
-    	const size = this.boardsize;
-
+    initMatrix = (size, start) => {
         for(let i = 0; i < size; i++) {
             this.history[i] = [];
             this.final[i] = [];
@@ -84,8 +82,14 @@ class Board {
                 this.final[i][j] = false;
             }
         }
+	};
 
-        this.history[start[0]][start[1]] = [size, size]; //
+    generateBoard = (level, start) => {
+    	const size = this.boardsize;
+
+        this.initMatrix(size);
+
+        this.history[start[0]][start[1]] = [size, size];
         this.final[start[0]][start[1]] = true;
 
         let run = true;
@@ -99,7 +103,7 @@ class Board {
             if(next) {
                 this.history[next[0]][next[1]] = current;
                 this.final[next[0]][next[1]] = true;
-
+                // console.log("newpair", JSON.stringify(current) + " " + JSON.stringify(next));
                 current = next;
             } else {
                 const pre = this.history[current[0]][current[1]];
@@ -110,13 +114,22 @@ class Board {
             }
         }
 
-        return this.final.map((row, i) => {
-            return row.reduce((acc, point, j) => {
-                if(point) return acc.concat([[i, j]]);
+        // console.log("valid", this.checkSolution(array.length, array));
 
-                return acc;
-            }, [])
-        }).filter((x) => x.length !== 0).reduce((a, b) => a.concat(b), [])
+        return this.final.reduce((accI, row, i) => {
+            const reducedRow = row.reduce((accJ, point, j) => {
+                if(point) return accJ.concat([[i, j]]);
+
+                return accJ;
+            }, []);
+
+			if(reducedRow.length !== 0) {
+				return accI.concat(reducedRow);
+			}
+
+			return accI;
+        }, []);
+
 	};
 
 	isPossibleMove = (currF, nextF) => {
@@ -134,8 +147,13 @@ class Board {
 		if (solution.length !== level) return false;
 
 		return solution.reduce((acc, curr, index, array) => {
-			if (index + 1 <= array.length - 1)
-				return acc && this.isPossibleMove(curr, array[index + 1]);
+			if (index + 1 <= array.length - 1) {
+				const isPossible = this.isPossibleMove(curr, array[index + 1]);
+				if(!isPossible) {
+                    console.log("failed", JSON.stringify(curr) + " " + JSON.stringify(array[index + 1]));
+				}
+                return acc && this.isPossibleMove(curr, array[index + 1]);
+            }
 
 			return acc;
 		}, true);
