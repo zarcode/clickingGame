@@ -1,7 +1,7 @@
 import config from "../config.json";
 
 const isEqual = (a, b) => {
-    return a[0] === b[0] && a[1] === b[1]
+	return a[0] === b[0] && a[1] === b[1];
 };
 
 class Board {
@@ -42,94 +42,94 @@ class Board {
 		return index !== -1;
 	};
 
-	getRandomField = (items) => {
-		if(items.length === 0) {
+	getRandomField = items => {
+		if (items.length === 0) {
 			return null;
 		}
 
-		const randomIndex = Math.floor(Math.random()*items.length);
+		const randomIndex = Math.floor(Math.random() * items.length);
 
 		const random = items[randomIndex];
 
 		const used = this.final[random[0]][random[1]];
 
-		if(used) {
-			return this.getRandomField([...items.slice(0, randomIndex), ...items.slice(randomIndex + 1)])
+		if (used) {
+			return this.getRandomField([
+				...items.slice(0, randomIndex),
+				...items.slice(randomIndex + 1)
+			]);
 		}
 
 		return random;
 	};
 
-    getNext = (current) => {
-        const items = this.getPossibleMovements(current);
-        return this.getRandomField(items);
-    };
-
-    getFinalCount = () => {
-        return this.final.reduce((a, b) => a.concat(b), []).reduce((count, x) => {
-            if(x)
-                return count + 1;
-            return count;
-        },0);
-    };
-
-    initMatrix = (size, start) => {
-        for(let i = 0; i < size; i++) {
-            this.history[i] = [];
-            this.final[i] = [];
-            for(let j = 0; j < size; j++) {
-                this.history[i][j] = undefined;
-                this.final[i][j] = false;
-            }
-        }
+	getNext = current => {
+		const items = this.getPossibleMovements(current);
+		return this.getRandomField(items);
 	};
 
-    generateBoard = (level, start) => {
-    	const size = this.boardsize;
+	getFinalCount = () => {
+		return this.final.reduce((a, b) => a.concat(b), []).reduce((count, x) => {
+			if (x) return count + 1;
+			return count;
+		}, 0);
+	};
 
-        this.initMatrix(size);
+	initMatrix = (size, start) => {
+		for (let i = 0; i < size; i++) {
+			this.history[i] = [];
+			this.final[i] = [];
+			for (let j = 0; j < size; j++) {
+				this.history[i][j] = undefined;
+				this.final[i][j] = false;
+			}
+		}
+	};
 
-        this.history[start[0]][start[1]] = [size, size];
-        this.final[start[0]][start[1]] = true;
+	generateBoard = (level, start) => {
+		const size = this.boardsize;
 
-        let run = true;
-        let current = start;
-        while (run) {
-            if(this.getFinalCount() === level - 1)
-                run = false;
+		this.initMatrix(size);
 
-            const next = this.getNext(current);
+		this.history[start[0]][start[1]] = [size, size];
+		this.final[start[0]][start[1]] = true;
 
-            if(next) {
-                this.history[next[0]][next[1]] = current;
-                this.final[next[0]][next[1]] = true;
-                // console.log("newpair", JSON.stringify(current) + " " + JSON.stringify(next));
-                current = next;
-            } else {
-                const pre = this.history[current[0]][current[1]];
-                if(pre[0] === size && pre[1] === size) {
-                    run = false;
-                }
-                current = pre;
-            }
-        }
+		let run = true;
+		let current = start;
+		while (run) {
+			if (this.getFinalCount() === level - 1) run = false;
 
-        // console.log("valid", this.checkSolution(array.length, array));
+			const next = this.getNext(current);
 
-        return this.final.reduce((accI, row, i) => {
-            const reducedRow = row.reduce((accJ, point, j) => {
-                if(point) return accJ.concat([[i, j]]);
+			if (next) {
+				this.history[next[0]][next[1]] = current;
+				this.final[next[0]][next[1]] = true;
+				// console.log("newpair", JSON.stringify(current) + " " + JSON.stringify(next));
+				current = next;
+			} else {
+				const pre = this.history[current[0]][current[1]];
+				if (pre[0] === size && pre[1] === size) {
+					run = false;
+				}
+				current = pre;
+			}
+		}
 
-                return accJ;
-            }, []);
+		// console.log("valid", this.checkSolution(array.length, array));
 
-			if(reducedRow.length !== 0) {
+		return this.final.reduce((accI, row, i) => {
+			const reducedRow = row.reduce((accJ, point, j) => {
+				if (point) return accJ.concat([[i, j]]);
+
+				return accJ;
+			}, []);
+
+			if (reducedRow.length !== 0) {
 				return accI.concat(reducedRow);
 			}
 
 			return accI;
-        }, []);
-
+		}, []);
 	};
 
 	isPossibleMove = (currF, nextF) => {
@@ -149,11 +149,14 @@ class Board {
 		return solution.reduce((acc, curr, index, array) => {
 			if (index + 1 <= array.length - 1) {
 				const isPossible = this.isPossibleMove(curr, array[index + 1]);
-				if(!isPossible) {
-                    console.log("failed", JSON.stringify(curr) + " " + JSON.stringify(array[index + 1]));
+				if (!isPossible) {
+					console.log(
+						"failed",
+						JSON.stringify(curr) + " " + JSON.stringify(array[index + 1])
+					);
 				}
-                return acc && this.isPossibleMove(curr, array[index + 1]);
-            }
+				return acc && this.isPossibleMove(curr, array[index + 1]);
+			}
 
 			return acc;
 		}, true);

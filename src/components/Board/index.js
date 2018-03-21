@@ -50,7 +50,11 @@ class Board extends Component {
 	}
 
 	showLevelChoice = () => {
-		const maxLevel = this.props.currentUser.maxLevel;
+		const maxLevel =
+			this.props.currentUser.maxLevel < startLevel
+				? startLevel
+				: this.props.currentUser.maxLevel;
+
 		confirmAlert({
 			customUI: ({onClose}) => {
 				return (
@@ -101,7 +105,7 @@ class Board extends Component {
 			this.setState({time: this.state.time + 1});
 		}, 1000);
 
-		const g =  this.boardApi.generateBoard(level + 1, field);
+		const g = this.boardApi.generateBoard(level + 1, field);
 
 		console.log(g);
 		// init board
@@ -265,7 +269,7 @@ class Board extends Component {
 								<div
 									className={`field${classes}`}
 									style={{
-										width: `${(100/this.size).toFixed(5)}%`
+										width: `${(100 / this.size).toFixed(5)}%`
 									}}
 									onClick={() =>
 										this.fieldClick(field, level, lives, isPossible)
