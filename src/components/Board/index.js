@@ -5,9 +5,11 @@ import PropTypes from "prop-types";
 // import { persistConfig } from  "../../configureStore"
 import {confirmAlert} from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import config from "../../config.json";
 
 import "./Board.css";
-import {getBoardApi, startLevel} from "../../utils";
+import {generateBoard, getPossibleMovements} from "../../utils/Board";
+import {startLevel, isFieldInArray} from "../../utils";
 import BoardStats from "./BoardStats";
 
 class Board extends Component {
@@ -31,13 +33,12 @@ class Board extends Component {
 		// this.level = props.user.level; // current level
 		// this.lives = props.user.lives; // number of lives
 
-		this.size = 10; // board size
+		this.size = config.boardSize; // board size
 		this.board = []; // board generator array
 		for (let i = 0; i < this.size; i++) {
 			this.board[i] = i;
 		}
 
-		this.boardApi = getBoardApi(this.size); // board functions
 		this.timer = null; // timer interval
 	}
 
@@ -105,7 +106,7 @@ class Board extends Component {
 			this.setState({time: this.state.time + 1});
 		}, 1000);
 
-		const g = this.boardApi.generateBoard(level + 1, field);
+		const g = generateBoard(level + 1, field);
 
 		console.log(g);
 		// init board
@@ -155,15 +156,15 @@ class Board extends Component {
 		// get all possible moves and substract the selected ones
 		let possible = [];
 		if (this.state.started) {
-			possible = this.boardApi.getPossibleMovements(field).filter(x => {
+			possible = getPossibleMovements(field).filter(x => {
 				const notSelected = this.state.generated.filter(
-					g => !this.boardApi.isFieldInArray(g, selected)
+					g => !isFieldInArray(g, selected)
 				);
-				return this.boardApi.isFieldInArray(x, notSelected);
-				// return this.boardApi.isFieldInArray(x, this.state.generated) && !this.boardApi.isFieldInArray(x, selected);
+				return isFieldInArray(x, notSelected);
+				// return isFieldInArray(x, this.state.generated) && !isFieldInArray(x, selected);
 			});
 		} else {
-			possible = this.boardApi.getPossibleMovements(field);
+			possible = getPossibleMovements(field);
 		}
 
 		// new move is made
@@ -245,10 +246,7 @@ class Board extends Component {
 					{this.board.map(x =>
 						this.board.map(y => {
 							const field = [x, y];
-							const isPossible = this.boardApi.isFieldInArray(
-								field,
-								this.state.possible
-							);
+							const isPossible = isFieldInArray(field, this.state.possible);
 
 							// class details:
 							// "initial" => before game fields are generated
@@ -256,14 +254,12 @@ class Board extends Component {
 							// "possible" => field that can be select based on last selected
 							// "selected" => already selected filed
 							const classes =
-								(this.boardApi.isFieldInArray(field, this.state.generated)
+								(isFieldInArray(field, this.state.generated)
 									? " passive"
 									: "") +
 								(this.state.generated.length === 0 ? " initial" : "") +
 								(isPossible ? " possible" : "") +
-								(this.boardApi.isFieldInArray(field, this.state.selected)
-									? " selected"
-									: "");
+								(isFieldInArray(field, this.state.selected) ? " selected" : "");
 
 							return (
 								<div

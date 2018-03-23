@@ -1,3 +1,4 @@
 {
-    "startLevel": 99
+    "startLevel": 10,
+    "boardSize": 10
 }
