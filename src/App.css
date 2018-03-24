@@ -16,6 +16,10 @@ a[role=button]:hover {
   color: blue;
 }
 
+a.close[role=button] {
+  color: red;
+}
+
 button {
   cursor: pointer;
 }

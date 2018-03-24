@@ -19,14 +19,58 @@
 }
 
 .top-score th, .top-score td {
-    text-align: left;
+    text-align: center;
+    vertical-align: top;
     padding-left: 5px;
     padding-right: 5px;
 }
 
+.top-score th:first-child, .top-score td:first-child {
+    width: 20%;
+    text-align: left;
+    min-width: 70px;
+}
+
+.top-score th:nth-child(2), .top-score td:nth-child(2) {
+    min-width: 134px;
+}
+
 .top-score th:last-child, .top-score td:last-child {
-    text-align: center;
     max-width: 136px;
     min-width: 90px;
     width: 136px;
+}
+
+.all-times .open-times {
+    color: darkgreen;
+    font-size: 1.5em;
+    line-height: 10px;
+    position: relative;
+    top: 1px;
+    margin-left: 7px;
+}
+
+.all-times .list {
+    background-color: darkgray;
+}
+
+.top-score .time-item {
+    max-width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.all-times .list {
+    position: relative;
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.all-times .close-times {
+    position: absolute;
+    bottom: 3px;
+    right: 4px;
 }

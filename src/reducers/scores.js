@@ -29,7 +29,7 @@ defaultState["default"] = [];
 export default (state = defaultState, action) => {
 	switch (action.type) {
 		case "USER_COMPLETED_LEVEL":
-			const currentUserScores = state[action.username];
+			const currentUserScores = state[action.username]?state[action.username]:[];
 
 			return {
 				...state,

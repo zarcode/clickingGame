@@ -6,7 +6,7 @@
 
     .score {
         flex: 1;
-        min-width: 300px;
+        min-width: 320px;
         /*margin-left: 10px;*/
     }
 }
@@ -38,7 +38,6 @@
 }
 
 .choose-player-dialog .close[role=button] {
-    color: red;
     float: right;
     margin-top: -12px;
     margin-right: -10px;

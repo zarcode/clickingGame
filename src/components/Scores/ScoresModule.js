@@ -1,10 +1,13 @@
 export const reduceScores = (scores, levelRepeats) => {
+    if(!scores || scores.length === 0)
+        return [];
+
 	return scores
 		.sort((a, b) => {
-			if (a.level < b.level) {
+			if (a.level > b.level) {
 				return -1;
 			}
-			if (a.level > b.level) {
+			if (a.level < b.level) {
 				return 1;
 			}
 
