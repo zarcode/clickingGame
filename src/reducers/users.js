@@ -1,4 +1,5 @@
 import {startLevel} from "../utils";
+import config from "../config";
 
 /*
 This reducer data types:
@@ -63,12 +64,14 @@ export default (state = defaultState, action) => {
 			const completedTimes = currentUser.completedTimes
 				? currentUser.completedTimes
 				: {};
+
 			return {
 				...state,
 				[currentUser.username]: {
 					...currentUser,
 					maxLevel:
-						action.level + 1 > currentUser.maxLevel
+						action.level + 1 > currentUser.maxLevel &&
+						action.level + 1 <= config.levelsLimit
 							? action.level + 1
 							: currentUser.maxLevel,
 					lives: action.lives + 1,

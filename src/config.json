@@ -1,4 +1,5 @@
 {
-    "startLevel": 3,
-    "boardSize": 10
+    "startLevel": 2,
+    "boardSize": 10,
+    "levelsLimit": 85
 }

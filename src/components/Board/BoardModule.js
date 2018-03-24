@@ -1,11 +1,11 @@
 import {isInside, isFieldInArray} from "../../utils/index";
 
 /**
- * Randomize array element order in-place (Without mutation)
+ * Randomize array element order in-place
  * Using Durstenfeld shuffle algorithm.
  */
-const shuffleArray = original => {
-	const array = [...original];
+const shuffleArray = array => {
+	// const array = [...original];
 
 	for (let i = array.length - 1; i > 0; i--) {
 		let j = Math.floor(Math.random() * (i + 1));
@@ -47,6 +47,7 @@ const step = (path, requiredLenght) => {
 	if (moves.length === 0) {
 		return path;
 	} else if (requiredLenght === path.length + 1) {
+		// don't return longer paths than required
 		return path.concat([moves[0]]);
 	} else {
 		for (let i = 0; i < moves.length; i++) {

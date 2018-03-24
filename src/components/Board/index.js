@@ -109,13 +109,10 @@ class Board extends Component {
 			this.setState({time: this.state.time + 1});
 		}, 1000);
 
-		const g = generateBoard(level + 1, field);
-
-		console.log(g);
 		// init board
 		this.setState({
 			started: true,
-			generated: g
+			generated: generateBoard(level + 1, field)
 		});
 	};
 
@@ -126,10 +123,6 @@ class Board extends Component {
 			lives,
 			this.state.time
 		);
-
-		this.setState({
-			level: level + 1
-		});
 	};
 
 	handleLevelFail = (level, lives, moves) => {
@@ -205,10 +198,21 @@ class Board extends Component {
 			// stop timer
 			clearInterval(this.timer);
 
+			let successTitle = `You have completed level: ${level}`;
+			let successMessage = "Do you want to play next level?";
+
+			// last level
+			if (level === config.levelsLimit) {
+				successTitle = `You have completed all ${config.levelsLimit} levels`;
+				successMessage = "Do you want to start all over again?";
+			}
+
+			this.handleLevelComplete(level, lives);
+
 			// level success
 			confirmAlert({
-				title: `You have completed level: ${level}`,
-				message: "Do you want to play next level?",
+				title: successTitle,
+				message: successMessage,
 				buttons: [
 					{
 						label: "No",
@@ -217,9 +221,12 @@ class Board extends Component {
 					{
 						label: "Yes",
 						onClick: () => {
-							this.handleLevelComplete(level, lives);
 							// reset board
-							this.setState(this.initialState);
+							if (level === config.levelsLimit) {
+								this.setState({...this.initialState, level: startLevel});
+							} else {
+								this.setState({...this.initialState, level: level + 1});
+							}
 						}
 					}
 				]
