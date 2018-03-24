@@ -36,20 +36,23 @@
 .choose-player-dialog .close[role=button] {
     color: red;
     float: right;
-}
-
-.choose-player-dialog .field-set {
-    margin-bottom: 22px;
-}
-
-.choose-player-dialog .field-set:last-child {
-    margin-bottom: 0;
+    margin-top: -12px;
+    margin-right: -10px;
 }
 
 .choose-player-dialog ul {
     list-style: none;
     padding-left: 0;
+    margin-bottom: 22px;
     columns: 3;
     -webkit-columns: 3;
     -moz-columns: 3;
+}
+
+.choose-player-dialog ul li {
+    margin-bottom: 3px;
+}
+
+.choose-player-dialog input {
+    margin-right: 10px;
 }

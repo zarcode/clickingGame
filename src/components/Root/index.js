@@ -21,7 +21,7 @@ class Root extends Component {
             customUI: ({onClose}) => {
                 return (
                     <div className="react-confirm-alert-body choose-player-dialog">
-                        <a className="close" role="button" onClick={onClose}>X</a>
+                        <a className="close" role="button" tabIndex="0" aria-label="Close" onClick={onClose}>X</a>
                         <div className="field-set">
                             <strong>
                                 Click to choose player
@@ -32,6 +32,7 @@ class Root extends Component {
                                     key={index}
 								>
 									<a role="button"
+                                       tabIndex="0"
 									   onClick={() => {
 										   this.chooseUser(this.props.users[username]);
 										   setTimeout(() => {
@@ -53,6 +54,7 @@ class Root extends Component {
                                         this.newPlayer = input;
                                     }}/>
 									<a role="button"
+                                       tabIndex="0"
 									   onClick={() => {
 									   		const username = this.newPlayer.value;
 									   		if(!username)
