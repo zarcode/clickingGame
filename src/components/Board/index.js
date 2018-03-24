@@ -47,20 +47,17 @@ class Board extends Component {
 	}
 
 	componentDidMount() {
-    	this.showLevelChoice(this.props.currentUser);
-    }
+		this.showLevelChoice(this.props.currentUser);
+	}
 
 	componentWillReceiveProps(nextProps) {
-        if(nextProps.currentUser.username !== this.props.currentUser.username) {
-            this.showLevelChoice(nextProps.currentUser);
+		if (nextProps.currentUser.username !== this.props.currentUser.username) {
+			this.showLevelChoice(nextProps.currentUser);
 		}
 	}
 
-	showLevelChoice = (user) => {
-		const maxLevel =
-			user.maxLevel < startLevel
-				? startLevel
-				: user.maxLevel;
+	showLevelChoice = user => {
+		const maxLevel = user.maxLevel < startLevel ? startLevel : user.maxLevel;
 
 		confirmAlert({
 			customUI: ({onClose}) => {
@@ -139,7 +136,7 @@ class Board extends Component {
 		clearInterval(this.timer);
 		// alert("You are out of moves");
 
-		const newLives = lives - ((level + 1) - moves);
+		const newLives = lives - (level + 1 - moves);
 		if (newLives > 0) {
 			this.props.failLevel(this.props.currentUser.username, newLives);
 		} else {
