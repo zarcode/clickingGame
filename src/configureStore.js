@@ -8,7 +8,7 @@ import scores from "./reducers/scores";
 import currentUser from "./reducers/currentUser";
 
 const appReducer = combineReducers({
-    scores,
+	scores,
 	users,
 	currentUser
 });

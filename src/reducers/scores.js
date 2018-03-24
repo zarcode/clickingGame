@@ -27,21 +27,21 @@ const defaultState = {};
 defaultState["default"] = [];
 
 export default (state = defaultState, action) => {
-    switch (action.type) {
-        case "USER_COMPLETED_LEVEL":
-            const currentUserScores = state[action.username];
+	switch (action.type) {
+		case "USER_COMPLETED_LEVEL":
+			const currentUserScores = state[action.username];
 
-            return {
-                ...state,
-                [action.username]: [
-                    ...currentUserScores,
-                    {
-                        level: action.level,
-                        time: action.time
-                    }
-                ]
-            };
-        default:
-            return state;
-    }
+			return {
+				...state,
+				[action.username]: [
+					...currentUserScores,
+					{
+						level: action.level,
+						time: action.time
+					}
+				]
+			};
+		default:
+			return state;
+	}
 };

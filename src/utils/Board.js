@@ -4,7 +4,7 @@ import {isInside, isFieldInArray} from "./";
  * Randomize array element order in-place (Without mutation)
  * Using Durstenfeld shuffle algorithm.
  */
-const shuffleArray = (original) => {
+const shuffleArray = original => {
 	const array = [...original];
 
 	for (let i = array.length - 1; i > 0; i--) {
@@ -34,9 +34,11 @@ export const getPossibleMovements = C => {
 };
 
 const getNextMoves = path => {
-	return shuffleArray(getPossibleMovements(path[path.length - 1]).filter(
-		x => !isFieldInArray(x, path)
-	));
+	return shuffleArray(
+		getPossibleMovements(path[path.length - 1]).filter(
+			x => !isFieldInArray(x, path)
+		)
+	);
 };
 
 const step = (path, requiredLenght) => {

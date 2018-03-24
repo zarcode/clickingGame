@@ -120,7 +120,12 @@ class Board extends Component {
 	};
 
 	handleLevelComplete = (level, lives) => {
-		this.props.completeLevel(this.props.currentUser.username, level, lives, this.state.time);
+		this.props.completeLevel(
+			this.props.currentUser.username,
+			level,
+			lives,
+			this.state.time
+		);
 
 		this.setState({
 			level: level + 1
@@ -197,8 +202,8 @@ class Board extends Component {
 
 		// last move
 		if (moves === level + 1) {
-            // stop timer
-            clearInterval(this.timer);
+			// stop timer
+			clearInterval(this.timer);
 
 			// level success
 			confirmAlert({
