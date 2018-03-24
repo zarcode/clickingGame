@@ -292,7 +292,6 @@ class Board extends Component {
 }
 
 Board.propTypes = {
-	users: PropTypes.object.isRequired,
 	currentUser: PropTypes.shape({
 		username: PropTypes.string.isRequired,
 		maxLevel: PropTypes.number.isRequired,
@@ -306,7 +305,6 @@ Board.propTypes = {
 
 const mapStateToProps = state => {
 	return {
-		users: state.users,
 		currentUser: state.currentUser
 	};
 };
