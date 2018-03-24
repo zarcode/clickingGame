@@ -8,9 +8,10 @@ import config from "../../config.json";
 
 import "./Board.css";
 import {generateBoard, getPossibleMovements} from "./BoardModule";
-import {startLevel, isFieldInArray} from "../../utils";
+import {isFieldInArray} from "../../utils";
 import BoardStats from "./BoardStats";
 
+const startLevel = config.startLevel;
 class Board extends Component {
 	constructor(props) {
 		super(props);
@@ -175,13 +176,8 @@ class Board extends Component {
 				title: "End game",
 				message: "You lost this game. Do you want to play again?",
 				buttons: [
-					{
-						label: "No",
-						onClick: () => {}
-					},
-					{
-						label: "Yes",
-						onClick: () => {
+					{label: "No", onClick: () => {}},
+					{label: "Yes", onClick: () => {
 							this.handleLevelFail(level, lives, moves);
 							// reset board
 							this.setState(this.initialState);
@@ -214,13 +210,8 @@ class Board extends Component {
 				title: successTitle,
 				message: successMessage,
 				buttons: [
-					{
-						label: "No",
-						onClick: () => {}
-					},
-					{
-						label: "Yes",
-						onClick: () => {
+					{label: "No", onClick: () => {}},
+					{label: "Yes", onClick: () => {
 							// reset board
 							if (level === config.levelsLimit) {
 								this.setState({...this.initialState, level: startLevel});
@@ -237,10 +228,7 @@ class Board extends Component {
 
 		// save to state
 		this.setState(
-			{
-				selected,
-				possible
-			},
+			{selected, possible},
 			() => {
 				this.setState({moves});
 			}

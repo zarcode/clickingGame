@@ -1,4 +1,3 @@
-import {startLevel} from "../utils";
 import config from "../config";
 
 /*
@@ -28,6 +27,8 @@ users: {
     ...
 }
 */
+
+const startLevel = config.startLevel;
 
 const defaultUser = {
 	username: "default",
