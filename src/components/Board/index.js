@@ -139,7 +139,7 @@ class Board extends Component {
 		clearInterval(this.timer);
 		// alert("You are out of moves");
 
-		const newLives = lives - (level - moves);
+		const newLives = lives - ((level + 1) - moves);
 		if (newLives > 0) {
 			this.props.failLevel(this.props.currentUser.username, newLives);
 		} else {
