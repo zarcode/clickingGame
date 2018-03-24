@@ -1,6 +1,6 @@
 ## Description:
 Game made in React + Redux.
-On first click level of level + 1 fields is generated.
+On first click level with fields is generated.
 Player can click only fields that are on the specific distance of previously clicked (marked yellow).
 Possible moves will follow this rule:
 
