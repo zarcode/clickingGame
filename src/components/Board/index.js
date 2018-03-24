@@ -47,14 +47,17 @@ class Board extends Component {
 	}
 
 	componentDidMount() {
-		this.showLevelChoice();
+		this.showLevelChoice(this.props.currentUser);
 	}
 
-	showLevelChoice = () => {
-		const maxLevel =
-			this.props.currentUser.maxLevel < startLevel
-				? startLevel
-				: this.props.currentUser.maxLevel;
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.currentUser.username !== this.props.currentUser.username) {
+			this.showLevelChoice(nextProps.currentUser);
+		}
+	}
+
+	showLevelChoice = user => {
+		const maxLevel = user.maxLevel < startLevel ? startLevel : user.maxLevel;
 
 		confirmAlert({
 			customUI: ({onClose}) => {
@@ -62,9 +65,10 @@ class Board extends Component {
 					<div className="react-confirm-alert-body">
 						<h1>Choose Level</h1>
 						<div>
-							<label>
+							<label htmlFor="level">
 								Level:
 								<select
+									name="level"
 									ref={input => {
 										this.chooseLevel = input;
 									}}
@@ -120,7 +124,7 @@ class Board extends Component {
 		// reset counter
 		clearInterval(this.timer);
 
-		this.props.completeLevel(level, lives);
+		this.props.completeLevel(this.props.currentUser.username, level, lives);
 
 		this.setState({
 			level: level + 1
@@ -132,11 +136,11 @@ class Board extends Component {
 		clearInterval(this.timer);
 		// alert("You are out of moves");
 
-		const newLives = lives - (level - moves);
+		const newLives = lives - (level + 1 - moves);
 		if (newLives > 0) {
-			this.props.failLevel(newLives);
+			this.props.failLevel(this.props.currentUser.username, newLives);
 		} else {
-			this.props.failGame();
+			this.props.failGame(this.props.currentUser.username);
 
 			// reset to start level
 			this.setState({
@@ -297,24 +301,9 @@ Board.propTypes = {
 		maxLevel: PropTypes.number.isRequired,
 		lives: PropTypes.number.isRequired
 	}).isRequired,
-	initNewUser: PropTypes.func.isRequired,
 	failLevel: PropTypes.func.isRequired,
 	completeLevel: PropTypes.func.isRequired,
 	failGame: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
-	return {
-		currentUser: state.currentUser
-	};
-};
-
-const mapDispatchToProps = dispatch => ({
-	initNewUser: user => dispatch({type: "INIT_NEW_USER", user}),
-	failLevel: lives => dispatch({type: "USER_FAILED_LEVEL", lives}),
-	completeLevel: (level, lives) =>
-		dispatch({type: "USER_COMPLETED_LEVEL", level, lives}),
-	failGame: () => dispatch({type: "RESET_USERS_GAME"})
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default Board;
