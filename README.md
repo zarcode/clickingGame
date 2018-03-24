@@ -1,6 +1,6 @@
 ## How to run:
 
-In the project directory, you can run:
+Download or clone master branch. In the project directory run:
 
 ```
 npm install
