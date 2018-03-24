@@ -1,4 +1,4 @@
-import {isInside, isFieldInArray} from "./";
+import {isInside, isFieldInArray} from "../../utils/index";
 
 /**
  * Randomize array element order in-place (Without mutation)

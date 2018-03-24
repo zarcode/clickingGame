@@ -6,7 +6,7 @@ import "./BoardStats.css";
 const BoardStats = ({movesLeft, time, lives, level}) => {
 	return (
 		<div className="stats">
-			<h3>Game Stats</h3>
+			<h3 className="sectionTitle">Game Stats</h3>
 			<div className="stats-detail">
 				Timer: <strong>{`${time}seconds`}</strong>
 			</div>

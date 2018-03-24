@@ -7,7 +7,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import config from "../../config.json";
 
 import "./Board.css";
-import {generateBoard, getPossibleMovements} from "../../utils/Board";
+import {generateBoard, getPossibleMovements} from "./BoardModule";
 import {startLevel, isFieldInArray} from "../../utils";
 import BoardStats from "./BoardStats";
 

@@ -4,6 +4,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 import "./Root.css";
 import Board from "../Board";
+import Scores from "../Scores";
 import {connect} from "react-redux";
 
 class Root extends Component {
@@ -95,7 +96,6 @@ class Root extends Component {
 	};
 
 	render() {
-		console.log(this.props);
 		return (
 			<div className="app-wrapper">
 				<div className="startBar">
@@ -112,7 +112,7 @@ class Root extends Component {
 						{...this.props.boardFunctions}
 						currentUser={this.props.users[this.props.currentUser]}
 					/>
-					<div className="score">Score</div>
+					<Scores currentUser={this.props.users[this.props.currentUser]} />
 				</div>
 			</div>
 		);

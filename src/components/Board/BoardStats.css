@@ -6,8 +6,7 @@
     padding-top: 10px;
 }
 
-.stats h3 {
-    color: red;
+.stats .sectionTitle {
     margin: 0;
 }
 
