@@ -1,6 +1,5 @@
 export const reduceScores = (scores, levelRepeats) => {
-    if(!scores || scores.length === 0)
-        return [];
+	if (!scores || scores.length === 0) return [];
 
 	return scores
 		.sort((a, b) => {

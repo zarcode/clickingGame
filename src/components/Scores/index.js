@@ -6,24 +6,24 @@ import {reduceScores} from "./ScoresModule";
 
 class Scores extends Component {
 	constructor(props) {
-	    super(props);
+		super(props);
 
-        this.state = {
-            lists: props.scores.map((x) => false)
-        }
+		this.state = {
+			lists: props.scores.map(x => false)
+		};
 	}
 
-	openList = (index) => {
-	    const newLists = this.state.lists;
-        newLists[index] = true;
-	    this.setState({ lists: newLists })
-    };
+	openList = index => {
+		const newLists = this.state.lists;
+		newLists[index] = true;
+		this.setState({lists: newLists});
+	};
 
-	closeList = (index) => {
-	    const newLists = this.state.lists;
-        newLists[index] = false;
-	    this.setState({ lists: newLists })
-    };
+	closeList = index => {
+		const newLists = this.state.lists;
+		newLists[index] = false;
+		this.setState({lists: newLists});
+	};
 
 	drawCell = (scoreItem, property, index) => {
 		if (property === "level") {
@@ -44,32 +44,37 @@ class Scores extends Component {
 			return (
 				<div className="all-times">
 					<div className="first time-item">
-                        <span>{`${allTimes[0]} seconds`}</span>
-                        <a
-                            role="button"
-                            aria-label="Open List"
-                            tabIndex="0"
-                            className="open-times"
-                            onClick={() => {
-                                this.openList(index);
-                            }}
-                        >+</a>
+						<span>{`${allTimes[0]} seconds`}</span>
+						<a
+							role="button"
+							aria-label="Open List"
+							tabIndex="0"
+							className="open-times"
+							onClick={() => {
+								this.openList(index);
+							}}
+						>
+							+
+						</a>
 					</div>
-                    {this.state.lists[index] === true && (
-                    <div className="list"
-                    >
-					    {allTimes.map((time, i) => <div className="time-item" key={i}>{`${time} seconds`}</div>)}
-                        <a
-                            className="close close-times"
-                            role="button"
-                            tabIndex="0"
-                            aria-label="Close"
-                            onClick={() => {
-                                this.closeList(index);
-                            }}
-                        >X</a>
-                    </div>
-                    )}
+					{this.state.lists[index] === true && (
+						<div className="list">
+							{allTimes.map((time, i) => (
+								<div className="time-item" key={i}>{`${time} seconds`}</div>
+							))}
+							<a
+								className="close close-times"
+								role="button"
+								tabIndex="0"
+								aria-label="Close"
+								onClick={() => {
+									this.closeList(index);
+								}}
+							>
+								X
+							</a>
+						</div>
+					)}
 				</div>
 			);
 		}
@@ -86,11 +91,13 @@ class Scores extends Component {
 					{this.props.scores.length !== 0 && (
 						<table>
 							<thead>
-                                <tr>
-								    <th>Level</th>
-                                    <th><div className="time-item">Time</div></th>
-                                    <th>Times complited</th>
-                                </tr>
+								<tr>
+									<th>Level</th>
+									<th>
+										<div className="time-item">Time</div>
+									</th>
+									<th>Times complited</th>
+								</tr>
 							</thead>
 							<tbody>
 								{this.props.scores.map((item, i) => {
