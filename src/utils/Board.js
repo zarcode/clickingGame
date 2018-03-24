@@ -1,5 +1,20 @@
 import {isInside, isFieldInArray} from "./";
 
+/**
+ * Randomize array element order in-place (Without mutation)
+ * Using Durstenfeld shuffle algorithm.
+ */
+const shuffleArray = (original) => {
+	const array = [...original];
+
+	for (let i = array.length - 1; i > 0; i--) {
+		let j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+
+	return array;
+};
+
 export const getPossibleMovements = C => {
 	const [Cx, Cy] = C;
 	const array = [
@@ -19,9 +34,9 @@ export const getPossibleMovements = C => {
 };
 
 const getNextMoves = path => {
-	return getPossibleMovements(path[path.length - 1]).filter(
+	return shuffleArray(getPossibleMovements(path[path.length - 1]).filter(
 		x => !isFieldInArray(x, path)
-	);
+	));
 };
 
 const step = (path, requiredLenght) => {
