@@ -1,5 +1,33 @@
 import {startLevel} from "../utils";
 
+/*
+This reducer data types:
+
+type completedObject = Map<number,number>
+
+type user = {
+    username: string,
+    maxLevel: number,
+    lives: number,
+    completedTimes: completedObject
+}
+
+type users = Map<string,user>
+
+===========================================
+
+Example:
+users: {
+    "default": {
+        username: "default",
+        maxLevel: 5,
+        lives: 3,
+        completedTimes: { 3: 1, 4: 2 }
+    }
+    ...
+}
+*/
+
 const defaultUser = {
 	username: "default",
 	maxLevel: startLevel,
