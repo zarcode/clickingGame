@@ -293,7 +293,6 @@ class Board extends Component {
 }
 
 Board.propTypes = {
-	users: PropTypes.object.isRequired,
 	currentUser: PropTypes.shape({
 		username: PropTypes.string.isRequired,
 		maxLevel: PropTypes.number.isRequired,
@@ -305,19 +304,4 @@ Board.propTypes = {
 	failGame: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
-	return {
-		users: state.users,
-		currentUser: state.currentUser
-	};
-};
-
-const mapDispatchToProps = dispatch => ({
-	initNewUser: username => dispatch({type: "INIT_NEW_USER", username}),
-	failLevel: lives => dispatch({type: "USER_FAILED_LEVEL", lives}),
-	completeLevel: (level, lives) =>
-		dispatch({type: "USER_COMPLETED_LEVEL", level, lives}),
-	failGame: () => dispatch({type: "RESET_USERS_GAME"})
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default Board;

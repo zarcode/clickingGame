@@ -82,7 +82,10 @@ class Root extends Component {
 					<button onClick={this.showChoosePlayer}>Choose player</button>
 				</div>
                 <div className="app">
-					<Board />
+					<Board
+						{...this.props.boardFunctions}
+						currentUser={this.props.currentUser}
+					/>
 					<div className="score">Score</div>
 				</div>
 			</div>
@@ -100,10 +103,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     setCurrentUser: user => dispatch({type: "SET_CURRENT_USER", user}),
     initNewUser: username => dispatch({type: "INIT_NEW_USER", username}),
-    failLevel: lives => dispatch({type: "USER_FAILED_LEVEL", lives}),
-    completeLevel: (level, lives) =>
-        dispatch({type: "USER_COMPLETED_LEVEL", level, lives}),
-    failGame: () => dispatch({type: "RESET_USERS_GAME"}),
+	boardFunctions: {
+        failLevel: lives => dispatch({type: "USER_FAILED_LEVEL", lives}),
+        completeLevel: (level, lives) =>
+            dispatch({type: "USER_COMPLETED_LEVEL", level, lives}),
+        failGame: () => dispatch({type: "RESET_USERS_GAME"})
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);
