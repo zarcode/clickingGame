@@ -95,6 +95,7 @@ class Root extends Component {
 	};
 
 	render() {
+	    console.log(this.props);
 		return (
 			<div className="app-wrapper">
 				<div className="startBar">
@@ -131,8 +132,8 @@ const mapDispatchToProps = dispatch => ({
 	boardFunctions: {
 		failLevel: (username, lives) =>
 			dispatch({type: "USER_FAILED_LEVEL", username, lives}),
-		completeLevel: (username, level, lives) =>
-			dispatch({type: "USER_COMPLETED_LEVEL", username, level, lives}),
+		completeLevel: (username, level, lives, time) =>
+			dispatch({type: "USER_COMPLETED_LEVEL", username, level, lives, time}),
 		failGame: username => dispatch({type: "RESET_USERS_GAME", username})
 	}
 });

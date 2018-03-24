@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
 import PropTypes from "prop-types";
 // import { purgeStoredState } from 'redux-persist'
 // import { persistConfig } from  "../../configureStore"
@@ -121,10 +120,7 @@ class Board extends Component {
 	};
 
 	handleLevelComplete = (level, lives) => {
-		// reset counter
-		clearInterval(this.timer);
-
-		this.props.completeLevel(this.props.currentUser.username, level, lives);
+		this.props.completeLevel(this.props.currentUser.username, level, lives, this.state.time);
 
 		this.setState({
 			level: level + 1
@@ -201,6 +197,9 @@ class Board extends Component {
 
 		// last move
 		if (moves === level + 1) {
+            // stop timer
+            clearInterval(this.timer);
+
 			// level success
 			confirmAlert({
 				title: `You have completed level: ${level}`,
