@@ -15,3 +15,41 @@
         /*margin-left: 10px;*/
     }
 }
+
+.startBar {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+}
+
+.startBar button {
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.choose-player-dialog strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.choose-player-dialog .close[role=button] {
+    color: red;
+    float: right;
+}
+
+.choose-player-dialog .field-set {
+    margin-bottom: 22px;
+}
+
+.choose-player-dialog .field-set:last-child {
+    margin-bottom: 0;
+}
+
+.choose-player-dialog ul {
+    list-style: none;
+    padding-left: 0;
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+}

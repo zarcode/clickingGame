@@ -6,6 +6,16 @@ defaultState[defaultUser.username] = defaultUser;
 
 export default (state = defaultState, action) => {
 	switch (action.type) {
+		case "INIT_NEW_USER":
+			const newUser = {};
+            newUser[action.username] = {
+				...defaultUser,
+                username: action.username
+			};
+            return {
+                ...state,
+				...newUser
+            };
 		default:
 			return state;
 	}

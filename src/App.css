@@ -6,3 +6,20 @@ html {
   box-sizing: inherit;
 }
 
+a[role=button] {
+  text-decoration: none;
+  cursor: pointer;
+  color: cornflowerblue;
+}
+
+a[role=button]:hover {
+  color: blue;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #efefef;
+}

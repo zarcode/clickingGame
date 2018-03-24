@@ -10,6 +10,11 @@ export default (state = defaultUser, action) => {
 	switch (action.type) {
 		case "INIT_NEW_USER":
 			return {
+				...defaultUser,
+				username: action.username
+			};
+		case "SET_CURRENT_USER":
+			return {
 				...action.user
 			};
 		case "USER_FAILED_LEVEL":

@@ -62,9 +62,10 @@ class Board extends Component {
 					<div className="react-confirm-alert-body">
 						<h1>Choose Level</h1>
 						<div>
-							<label>
+							<label htmlFor="level">
 								Level:
 								<select
+									name="level"
 									ref={input => {
 										this.chooseLevel = input;
 									}}
@@ -312,7 +313,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	initNewUser: user => dispatch({type: "INIT_NEW_USER", user}),
+	initNewUser: username => dispatch({type: "INIT_NEW_USER", username}),
 	failLevel: lives => dispatch({type: "USER_FAILED_LEVEL", lives}),
 	completeLevel: (level, lives) =>
 		dispatch({type: "USER_COMPLETED_LEVEL", level, lives}),
