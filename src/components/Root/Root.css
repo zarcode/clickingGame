@@ -21,6 +21,11 @@
     display: flex;
     align-items: center;
     padding-right: 5px;
+    padding-left: 10px;
+}
+
+.startBar span {
+    margin-left: 5px;
 }
 
 .startBar button {

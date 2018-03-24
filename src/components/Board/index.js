@@ -47,14 +47,20 @@ class Board extends Component {
 	}
 
 	componentDidMount() {
-		this.showLevelChoice();
+    	this.showLevelChoice(this.props.currentUser);
+    }
+
+	componentWillReceiveProps(nextProps) {
+        if(nextProps.currentUser.username !== this.props.currentUser.username) {
+            this.showLevelChoice(nextProps.currentUser);
+		}
 	}
 
-	showLevelChoice = () => {
+	showLevelChoice = (user) => {
 		const maxLevel =
-			this.props.currentUser.maxLevel < startLevel
+			user.maxLevel < startLevel
 				? startLevel
-				: this.props.currentUser.maxLevel;
+				: user.maxLevel;
 
 		confirmAlert({
 			customUI: ({onClose}) => {
@@ -121,7 +127,7 @@ class Board extends Component {
 		// reset counter
 		clearInterval(this.timer);
 
-		this.props.completeLevel(level, lives);
+		this.props.completeLevel(this.props.currentUser.username, level, lives);
 
 		this.setState({
 			level: level + 1
@@ -135,9 +141,9 @@ class Board extends Component {
 
 		const newLives = lives - (level - moves);
 		if (newLives > 0) {
-			this.props.failLevel(newLives);
+			this.props.failLevel(this.props.currentUser.username, newLives);
 		} else {
-			this.props.failGame();
+			this.props.failGame(this.props.currentUser.username);
 
 			// reset to start level
 			this.setState({
@@ -298,7 +304,6 @@ Board.propTypes = {
 		maxLevel: PropTypes.number.isRequired,
 		lives: PropTypes.number.isRequired
 	}).isRequired,
-	initNewUser: PropTypes.func.isRequired,
 	failLevel: PropTypes.func.isRequired,
 	completeLevel: PropTypes.func.isRequired,
 	failGame: PropTypes.func.isRequired

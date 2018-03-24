@@ -7,13 +7,22 @@ import Board from "../Board";
 import {connect} from "react-redux";
 
 class Root extends Component {
+    constructor(props) {
+        super(props);
 
-	chooseUser = (user) => {
-        this.props.setCurrentUser(user);
+        this.state = {
+        	currentUser: null
+		}
+	}
+
+	chooseUser = (username) => {
+        this.props.setCurrentUser(username);
+
 	};
 
 	createNewUser = (username) => {
         this.props.initNewUser(username);
+        this.props.setCurrentUser(username);
 	};
 
     showChoosePlayer = () => {
@@ -34,7 +43,7 @@ class Root extends Component {
 									<a role="button"
                                        tabIndex="0"
 									   onClick={() => {
-										   this.chooseUser(this.props.users[username]);
+										   this.chooseUser(username);
 										   setTimeout(() => {
 											   onClose();
 										   }, 300)
@@ -76,15 +85,23 @@ class Root extends Component {
     };
 
 	render() {
+		console.log(this.props);
 		return (
 			<div className="app-wrapper">
 				<div className="startBar">
+					{this.props.currentUser && (
+						<div>
+							<strong>Current Player:</strong>
+							<span>{this.props.currentUser}</span>
+						</div>
+						)
+					}
 					<button onClick={this.showChoosePlayer}>Choose player</button>
 				</div>
                 <div className="app">
 					<Board
 						{...this.props.boardFunctions}
-						currentUser={this.props.currentUser}
+						currentUser={this.props.users[this.props.currentUser]}
 					/>
 					<div className="score">Score</div>
 				</div>
@@ -101,13 +118,13 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch({type: "SET_CURRENT_USER", user}),
+    setCurrentUser: username => dispatch({type: "SET_CURRENT_USER", username}),
     initNewUser: username => dispatch({type: "INIT_NEW_USER", username}),
 	boardFunctions: {
-        failLevel: lives => dispatch({type: "USER_FAILED_LEVEL", lives}),
-        completeLevel: (level, lives) =>
-            dispatch({type: "USER_COMPLETED_LEVEL", level, lives}),
-        failGame: () => dispatch({type: "RESET_USERS_GAME"})
+        failLevel: (username, lives) => dispatch({type: "USER_FAILED_LEVEL", username, lives}),
+        completeLevel: (username, level, lives) =>
+            dispatch({type: "USER_COMPLETED_LEVEL", username, level, lives}),
+        failGame: (username) => dispatch({type: "RESET_USERS_GAME", username})
     }
 });
 
