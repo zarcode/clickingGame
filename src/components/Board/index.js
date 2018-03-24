@@ -10,6 +10,7 @@ import "./Board.css";
 import {generateBoard, getPossibleMovements} from "./BoardModule";
 import {isFieldInArray} from "../../utils";
 import BoardStats from "./BoardStats";
+import {connect} from "react-redux";
 
 const startLevel = config.startLevel;
 class Board extends Component {
@@ -305,4 +306,12 @@ Board.propTypes = {
 	failGame: PropTypes.func.isRequired
 };
 
-export default Board;
+const mapDispatchToProps = dispatch => ({
+	failLevel: (username, lives) =>
+		dispatch({type: "USER_FAILED_LEVEL", username, lives}),
+	completeLevel: (username, level, lives, time) =>
+		dispatch({type: "USER_COMPLETED_LEVEL", username, level, lives, time}),
+	failGame: username => dispatch({type: "RESET_USERS_GAME", username})
+});
+
+export default connect(null, mapDispatchToProps)(Board);

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {confirmAlert} from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -108,16 +109,18 @@ class Root extends Component {
 					<button onClick={this.showChoosePlayer}>Choose player</button>
 				</div>
 				<div className="app">
-					<Board
-						{...this.props.boardFunctions}
-						currentUser={this.props.users[this.props.currentUser]}
-					/>
+					<Board currentUser={this.props.users[this.props.currentUser]} />
 					<Scores currentUser={this.props.users[this.props.currentUser]} />
 				</div>
 			</div>
 		);
 	}
 }
+
+Root.propTypes = {
+    users: PropTypes.object.isRequired,
+    currentUser: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = state => {
 	return {
@@ -128,14 +131,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
 	setCurrentUser: username => dispatch({type: "SET_CURRENT_USER", username}),
-	initNewUser: username => dispatch({type: "INIT_NEW_USER", username}),
-	boardFunctions: {
-		failLevel: (username, lives) =>
-			dispatch({type: "USER_FAILED_LEVEL", username, lives}),
-		completeLevel: (username, level, lives, time) =>
-			dispatch({type: "USER_COMPLETED_LEVEL", username, level, lives, time}),
-		failGame: username => dispatch({type: "RESET_USERS_GAME", username})
-	}
+	initNewUser: username => dispatch({type: "INIT_NEW_USER", username})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

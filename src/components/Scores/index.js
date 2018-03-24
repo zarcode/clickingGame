@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import "./Scores.css";
@@ -118,6 +119,16 @@ class Scores extends Component {
 	}
 }
 
+const scorePropType = PropTypes.shape({
+    level: PropTypes.number.isRequired,
+    allTimes: PropTypes.arrayOf(PropTypes.number).isRequired,
+    count: PropTypes.number.isRequired,
+});
+
+Scores.propTypes = {
+    scores: PropTypes.arrayOf(scorePropType).isRequired,
+};
+
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scores: reduceScores(
@@ -127,4 +138,4 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, {})(Scores);
+export default connect(mapStateToProps)(Scores);
