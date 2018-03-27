@@ -1,8 +1,10 @@
-const config  =  {
-    singleQuote: false,
-    useTabs: true,
-    bracketSpacing: false,
-    parser: 'babylon'
+const config = {
+  tabWidth: 2,
+  singleQuote: true,
+  bracketSpacing: true,
+  trailingComma: 'es5',
+  useTabs: false,
+  parser: 'babylon',
 };
 
 module.exports = config;
