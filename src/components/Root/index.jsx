@@ -29,66 +29,61 @@ class Root extends Component {
 
   showChoosePlayer() {
     confirmAlert({
-      customUI: ({ onClose }) =>
-        (
-          <div className="react-confirm-alert-body choose-player-dialog">
-            <button
-              className="close"
-              aria-label="Close"
-              onClick={onClose}
-            >
-              X
-            </button>
-            <div className="field-set">
-              <strong>Click to choose player</strong>
-              <ul>
-                {Object.keys(this.props.users).map(username => (
-                  <li key={username}>
-                    <button
-                      onClick={() => {
-                        this.chooseUser(username);
-                        setTimeout(() => {
-                          onClose();
-                        }, 300);
-                      }}
-                    >
-                      {username}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="field-set">
-              <label htmlFor="player">
-                <strong>Or create new</strong>
-                <div>
-                  <input
-                    type="text"
-                    name="player"
-                    ref={(input) => {
-                      this.newPlayer = input;
-                    }}
-                  />
+      customUI: ({ onClose }) => (
+        <div className="react-confirm-alert-body choose-player-dialog">
+          <button className="close" aria-label="Close" onClick={onClose}>
+            X
+          </button>
+          <div className="field-set">
+            <strong>Click to choose player</strong>
+            <ul>
+              {Object.keys(this.props.users).map(username => (
+                <li key={username}>
                   <button
                     onClick={() => {
-                      const username = this.newPlayer.value;
-                      if (!username) return false;
-
-                      this.createNewUser(username);
+                      this.chooseUser(username);
                       setTimeout(() => {
                         onClose();
                       }, 300);
-
-                      return true;
                     }}
                   >
-                    Choose
+                    {username}
                   </button>
-                </div>
-              </label>
-            </div>
+                </li>
+              ))}
+            </ul>
           </div>
-        ),
+          <div className="field-set">
+            <label htmlFor="player">
+              <strong>Or create new</strong>
+              <div>
+                <input
+                  type="text"
+                  name="player"
+                  ref={(input) => {
+                    this.newPlayer = input;
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    const username = this.newPlayer.value;
+                    if (!username) return false;
+
+                    this.createNewUser(username);
+                    setTimeout(() => {
+                      onClose();
+                    }, 300);
+
+                    return true;
+                  }}
+                >
+                  Choose
+                </button>
+              </div>
+            </label>
+          </div>
+        </div>
+      ),
     });
   }
 

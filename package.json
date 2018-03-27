@@ -8,7 +8,8 @@
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "prettier": "^1.11.1"
+    "prettier": "^1.11.1",
+    "prettier-eslint-cli": "^4.7.1"
   },
   "dependencies": {
     "autoprefixer": "7.1.6",
@@ -58,7 +59,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "prettier": "prettier --config ./prettier.config.js --write \"{src,__{tests,mocks}__}/**/*.js\""
+    "format": "prettier-eslint --write \"{src,__{tests,mocks}__}/**/*.js\""
   },
   "jest": {
     "collectCoverageFrom": [

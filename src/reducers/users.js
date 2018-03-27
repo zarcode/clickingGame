@@ -70,25 +70,20 @@ export default (state = defaultState, action) => {
       };
     case 'USER_COMPLETED_LEVEL': {
       currentUser = state[action.username];
-      const completedTimes = currentUser.completedTimes
-        ? currentUser.completedTimes
-        : {};
+      const completedTimes = currentUser.completedTimes ? currentUser.completedTimes : {};
 
       return {
         ...state,
         [currentUser.username]: {
           ...currentUser,
           maxLevel:
-            action.level + 1 > currentUser.maxLevel &&
-            action.level + 1 <= config.levelsLimit
+            action.level + 1 > currentUser.maxLevel && action.level + 1 <= config.levelsLimit
               ? action.level + 1
               : currentUser.maxLevel,
           lives: action.lives + 1,
           completedTimes: {
             ...completedTimes,
-            [action.level]: completedTimes[action.level]
-              ? completedTimes[action.level] + 1
-              : 1,
+            [action.level]: completedTimes[action.level] ? completedTimes[action.level] + 1 : 1,
           },
         },
       };

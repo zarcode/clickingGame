@@ -69,42 +69,39 @@ class Board extends Component {
     const maxLevel = user.maxLevel < startLevel ? startLevel : user.maxLevel;
 
     confirmAlert({
-      customUI: ({ onClose }) =>
-        (
-          <div className="react-confirm-alert-body">
-            <h1>Choose Level</h1>
-            <div>
-              <label htmlFor="level">
-                Level:
-                <select
-                  name="level"
-                  ref={(input) => {
-                    this.chooseLevel = input;
-                  }}
-                >
-                  {Array.from(
-                    { length: maxLevel - (startLevel - 1) },
-                    (v, i) => maxLevel - i,
-                  ).map(item => (
+      customUI: ({ onClose }) => (
+        <div className="react-confirm-alert-body">
+          <h1>Choose Level</h1>
+          <div>
+            <label htmlFor="level">
+              Level:
+              <select
+                name="level"
+                ref={(input) => {
+                  this.chooseLevel = input;
+                }}
+              >
+                {Array.from({ length: maxLevel - (startLevel - 1) }, (v, i) => maxLevel - i)
+                  .map(item => (
                     <option key={item} value={item}>
                       {item}
                     </option>
                   ))}
-                </select>
-              </label>
-            </div>
-            <div className="react-confirm-alert-button-group">
-              <button
-                onClick={() => {
-                  this.selectLevel(parseInt(this.chooseLevel.value, 10));
-                  onClose();
-                }}
-              >
-                OK
-              </button>
-            </div>
+              </select>
+            </label>
           </div>
-        ),
+          <div className="react-confirm-alert-button-group">
+            <button
+              onClick={() => {
+                this.selectLevel(parseInt(this.chooseLevel.value, 10));
+                onClose();
+              }}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      ),
     });
   }
 
@@ -126,12 +123,7 @@ class Board extends Component {
   }
 
   handleLevelComplete(level, lives) {
-    this.props.completeLevel(
-      this.props.currentUser.username,
-      level,
-      lives,
-      this.state.time,
-    );
+    this.props.completeLevel(this.props.currentUser.username, level, lives, this.state.time);
   }
 
   handleLevelFail(level, lives, moves) {
@@ -265,9 +257,7 @@ class Board extends Component {
               // "possible" => field that can be select based on last selected
               // "selected" => already selected filed
               const classes =
-                (isFieldInArray(field, this.state.generated)
-                  ? ' passive'
-                  : '') +
+                (isFieldInArray(field, this.state.generated) ? ' passive' : '') +
                 (this.state.generated.length === 0 ? ' initial' : '') +
                 (isPossible ? ' possible' : '') +
                 (isFieldInArray(field, this.state.selected) ? ' selected' : '');
@@ -278,9 +268,7 @@ class Board extends Component {
                   style={{
                     width: `${(100 / this.size).toFixed(5)}%`,
                   }}
-                  onClick={() =>
-                    this.fieldClick(field, level, lives, isPossible)
-                  }
+                  onClick={() => this.fieldClick(field, level, lives, isPossible)}
                   key={`${x}${y}`}
                 />
               );
@@ -288,9 +276,7 @@ class Board extends Component {
         </div>
         <BoardStats
           movesLeft={
-            this.state.generated.length
-              ? this.state.generated.length - this.state.moves
-              : level
+            this.state.generated.length ? this.state.generated.length - this.state.moves : level
           }
           lives={lives}
           level={level}
@@ -309,8 +295,7 @@ Board.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  failLevel: (username, lives) =>
-    dispatch({ type: 'USER_FAILED_LEVEL', username, lives }),
+  failLevel: (username, lives) => dispatch({ type: 'USER_FAILED_LEVEL', username, lives }),
   completeLevel: (username, level, lives, time) =>
     dispatch({
       type: 'USER_COMPLETED_LEVEL',

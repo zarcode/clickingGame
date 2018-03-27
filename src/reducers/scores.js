@@ -38,9 +38,7 @@ defaultState[DEFAULT_USERNAME] = [];
 
 export default (state = defaultState, action) => {
   if (action.type === 'USER_COMPLETED_LEVEL') {
-    const currentUserScores = state[action.username]
-      ? state[action.username]
-      : [];
+    const currentUserScores = state[action.username] ? state[action.username] : [];
     return {
       ...state,
       [action.username]: [

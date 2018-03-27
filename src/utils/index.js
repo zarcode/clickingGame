@@ -11,8 +11,6 @@ export const isFieldInArray = (field, array) => {
 };
 
 export const startLevel =
-  Number.isInteger(config.startLevel) &&
-  config.startLevel < 100 &&
-  config.startLevel > 0
+  Number.isInteger(config.startLevel) && config.startLevel < 100 && config.startLevel > 0
     ? config.startLevel
     : 1;

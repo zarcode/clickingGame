@@ -63,9 +63,7 @@ class Scores extends Component {
           </div>
           {this.state.lists[index] === true && (
             <div className="list">
-              {allTimes.map(time => (
-                <div className="time-item">{`${time} seconds`}</div>
-              ))}
+              {allTimes.map(time => <div className="time-item">{`${time} seconds`}</div>)}
               <button
                 className="close close-times"
                 aria-label="Close"
