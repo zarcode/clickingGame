@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { ACTION } from '../constants';
 
 /*
 This reducer data types:
@@ -39,7 +40,7 @@ const DEFAULT_USERNAME = 'default';
 defaultState[DEFAULT_USERNAME] = [];
 
 export default (state = defaultState, action) => {
-  if (action.type === 'USER_COMPLETED_LEVEL') {
+  if (action.type === ACTION.USER_COMPLETED_LEVEL) {
     const currentUserScores = state[action.username] ? state[action.username] : [];
     return {
       ...state,

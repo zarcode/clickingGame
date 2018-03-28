@@ -1,3 +1,5 @@
+import { SCORE_PROPERTIES } from '../../constants/';
+
 const reduceScores = (scores, levelRepeats) => {
   if (!scores || scores.length === 0) return [];
 
@@ -18,18 +20,22 @@ const reduceScores = (scores, levelRepeats) => {
       if (acc.length === 0 || prev.level !== curr.level) {
         return acc.concat([
           {
-            level: curr.level,
-            allTimes: [curr.time],
-            count: levelRepeats[curr.level],
+            [SCORE_PROPERTIES.LEVEL]: curr.level,
+            [SCORE_PROPERTIES.ALL_TIMES]: [curr.time],
+            [SCORE_PROPERTIES.COUNT]: levelRepeats[curr.level],
           },
         ]);
       }
 
       if (prev.level === curr.level) {
-        const allTimes = [...prev.allTimes, curr.time];
+        const allTimes = [...prev[SCORE_PROPERTIES.ALL_TIMES], curr.time];
         return [
           ...acc.slice(0, acc.length - 1),
-          { level: curr.level, allTimes, count: levelRepeats[curr.level] },
+          {
+            [SCORE_PROPERTIES.LEVEL]: curr.level,
+            [SCORE_PROPERTIES.ALL_TIMES]: allTimes,
+            [SCORE_PROPERTIES.COUNT]: levelRepeats[curr.level],
+          },
         ];
       }
 

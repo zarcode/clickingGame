@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { scoresPropType } from '../../reducers/scores';
+import { SCORE_PROPERTIES } from '../../constants/';
 import './Scores.css';
 import reduceScores from './ScoresModule';
 
@@ -31,11 +32,11 @@ class Scores extends Component {
   }
 
   drawCell(scoreItem, property, index) {
-    if (property === 'level') {
+    if (property === SCORE_PROPERTIES.LEVEL) {
       return `Level ${scoreItem[property]}`;
     }
 
-    if (property === 'allTimes') {
+    if (property === SCORE_PROPERTIES.ALL_TIMES) {
       const allTimes = scoreItem[property].sort((a, b) => {
         if (a < b) {
           return -1;

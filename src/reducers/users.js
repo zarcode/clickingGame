@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
 import config from '../config.json';
+import { ACTION } from '../constants';
 
 /*
 This reducer data types:
@@ -53,7 +54,7 @@ defaultState[defaultUser.username] = defaultUser;
 export default (state = defaultState, action) => {
   let currentUser = {};
   switch (action.type) {
-    case 'INIT_NEW_USER':
+    case ACTION.INIT_NEW_USER:
       return {
         ...state,
         [action.username]: {
@@ -61,7 +62,7 @@ export default (state = defaultState, action) => {
           username: action.username,
         },
       };
-    case 'USER_FAILED_LEVEL':
+    case ACTION.USER_FAILED_LEVEL:
       currentUser = state[action.username];
       return {
         ...state,
@@ -70,7 +71,7 @@ export default (state = defaultState, action) => {
           lives: action.lives,
         },
       };
-    case 'USER_COMPLETED_LEVEL': {
+    case ACTION.USER_COMPLETED_LEVEL: {
       currentUser = state[action.username];
       const completedTimes = currentUser.completedTimes ? currentUser.completedTimes : {};
 
@@ -90,7 +91,7 @@ export default (state = defaultState, action) => {
         },
       };
     }
-    case 'RESET_USERS_GAME':
+    case ACTION.RESET_USERS_GAME:
       currentUser = state[action.username];
       return {
         ...state,
