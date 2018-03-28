@@ -173,6 +173,7 @@ class Board extends Component {
 
     // new move is made
     const moves = this.state.moves + 1;
+    this.setState({ selected, possible });
 
     // if no possible moves left
     if (possible.length === 0 && level + 1 > moves) {
@@ -236,9 +237,7 @@ class Board extends Component {
     }
 
     // save to state
-    this.setState({ selected, possible }, () => {
-      this.setState({ moves });
-    });
+    this.setState({ moves });
 
     if (!this.state.started) {
       this.startNewLevel(field, level);
