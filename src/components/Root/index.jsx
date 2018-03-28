@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import { userPropType } from '../../reducers/users';
+import { usersPropType } from '../../reducers/users';
+import { currentUserPropType } from '../../reducers/currentUser';
 import './Root.css';
 import Board from '../Board';
 import Scores from '../Scores';
@@ -109,8 +110,8 @@ class Root extends Component {
 }
 
 Root.propTypes = {
-  users: PropTypes.objectOf(userPropType).isRequired,
-  currentUser: PropTypes.string.isRequired,
+  users: usersPropType.isRequired,
+  currentUser: currentUserPropType.isRequired,
   setCurrentUser: PropTypes.func.isRequired,
   initNewUser: PropTypes.func.isRequired,
 };

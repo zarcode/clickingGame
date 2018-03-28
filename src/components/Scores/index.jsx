@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { scorePropType } from '../../reducers/scores';
+import { scoresPropType } from '../../reducers/scores';
 import './Scores.css';
 import reduceScores from './ScoresModule';
 
@@ -117,7 +116,7 @@ class Scores extends Component {
 }
 
 Scores.propTypes = {
-  scores: PropTypes.arrayOf(scorePropType).isRequired,
+  scores: scoresPropType.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({

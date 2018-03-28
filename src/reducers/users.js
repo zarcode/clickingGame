@@ -36,6 +36,8 @@ export const userPropType = PropTypes.shape({
   lives: PropTypes.number.isRequired,
 });
 
+export const usersPropType = PropTypes.objectOf(userPropType);
+
 const { startLevel } = config;
 
 const defaultUser = {

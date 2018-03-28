@@ -30,6 +30,8 @@ export const scorePropType = PropTypes.shape({
   count: PropTypes.number.isRequired,
 });
 
+export const scoresPropType = PropTypes.arrayOf(scorePropType);
+
 const defaultState = {};
 
 const DEFAULT_USERNAME = 'default';
