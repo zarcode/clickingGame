@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { confirmAlert } from 'react-confirm-alert';
+import { bindActionCreators } from 'redux';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import { usersPropType } from '../../reducers/users';
 import { currentUserPropType } from '../../reducers/currentUser';
+import { initNewUser } from '../../actions/users';
+import setCurrentUser from '../../actions/currentUser';
 import './Root.css';
 import Board from '../Board';
 import Scores from '../Scores';
@@ -20,12 +23,12 @@ class Root extends Component {
   }
 
   chooseUser(username) {
-    this.props.setCurrentUser(username);
+    this.props.actions.setCurrentUser(username);
   }
 
   createNewUser(username) {
-    this.props.initNewUser(username);
-    this.props.setCurrentUser(username);
+    this.props.actions.initNewUser(username);
+    this.props.actions.setCurrentUser(username);
   }
 
   showChoosePlayer() {
@@ -112,8 +115,10 @@ class Root extends Component {
 Root.propTypes = {
   users: usersPropType.isRequired,
   currentUser: currentUserPropType.isRequired,
-  setCurrentUser: PropTypes.func.isRequired,
-  initNewUser: PropTypes.func.isRequired,
+  actions: PropTypes.shape({
+    setCurrentUser: PropTypes.func.isRequired,
+    initNewUser: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -122,8 +127,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: username => dispatch({ type: 'SET_CURRENT_USER', username }),
-  initNewUser: username => dispatch({ type: 'INIT_NEW_USER', username }),
+  actions: bindActionCreators({ setCurrentUser, initNewUser }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

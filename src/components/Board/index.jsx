@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { userPropType } from '../../reducers/users';
+import * as userActions from '../../actions/users';
 import config from '../../config.json';
 import './Board.css';
 import { generateBoard, getPossibleMovements } from './BoardModule';
@@ -123,7 +125,12 @@ class Board extends Component {
   }
 
   handleLevelComplete(level, lives) {
-    this.props.completeLevel(this.props.currentUser.username, level, lives, this.state.time);
+    this.props.actions.completeLevel(
+      this.props.currentUser.username,
+      level,
+      lives,
+      this.state.time,
+    );
   }
 
   handleLevelFail(level, lives, moves) {
@@ -133,9 +140,9 @@ class Board extends Component {
 
     const newLives = lives - ((level + 1) - moves);
     if (newLives > 0) {
-      this.props.failLevel(this.props.currentUser.username, newLives);
+      this.props.actions.failLevel(this.props.currentUser.username, newLives);
     } else {
-      this.props.failGame(this.props.currentUser.username);
+      this.props.actions.failGame(this.props.currentUser.username);
 
       // reset to start level
       this.setState({
@@ -289,22 +296,15 @@ class Board extends Component {
 
 Board.propTypes = {
   currentUser: userPropType.isRequired,
-  failLevel: PropTypes.func.isRequired,
-  completeLevel: PropTypes.func.isRequired,
-  failGame: PropTypes.func.isRequired,
+  actions: PropTypes.shape({
+    failLevel: PropTypes.func.isRequired,
+    completeLevel: PropTypes.func.isRequired,
+    failGame: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
-  failLevel: (username, lives) => dispatch({ type: 'USER_FAILED_LEVEL', username, lives }),
-  completeLevel: (username, level, lives, time) =>
-    dispatch({
-      type: 'USER_COMPLETED_LEVEL',
-      username,
-      level,
-      lives,
-      time,
-    }),
-  failGame: username => dispatch({ type: 'RESET_USERS_GAME', username }),
+  actions: bindActionCreators(userActions, dispatch),
 });
 
 export default connect(null, mapDispatchToProps)(Board);
