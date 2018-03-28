@@ -1,33 +1,33 @@
-import logger from "redux-logger";
-import {combineReducers, createStore, applyMiddleware} from "redux";
-import {persistStore, persistReducer} from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web and AsyncStorage for react-native
+import logger from 'redux-logger';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 
-import users from "./reducers/users";
-import scores from "./reducers/scores";
-import currentUser from "./reducers/currentUser";
+import users from './reducers/users';
+import scores from './reducers/scores';
+import currentUser from './reducers/currentUser';
 
 const appReducer = combineReducers({
-	scores,
-	users,
-	currentUser
+  scores,
+  users,
+  currentUser,
 });
 
 export const persistConfig = {
-	key: "root",
-	storage
+  key: 'root',
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, appReducer);
 
 export default () => {
-	const middleWares = [];
+  const middleWares = [];
 
-	if (process.env.NODE_ENV) {
-		middleWares.push(logger);
-	}
+  if (process.env.NODE_ENV) {
+    middleWares.push(logger);
+  }
 
-	let store = createStore(persistedReducer, applyMiddleware(...middleWares));
-	let persistor = persistStore(store);
-	return {store, persistor};
+  const store = createStore(persistedReducer, applyMiddleware(...middleWares));
+  const persistor = persistStore(store);
+  return { store, persistor };
 };

@@ -37,7 +37,7 @@
     margin-bottom: 8px;
 }
 
-.choose-player-dialog .close[role=button] {
+.choose-player-dialog .close {
     float: right;
     margin-top: -12px;
     margin-right: -10px;

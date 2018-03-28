@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import { ACTION } from '../constants';
+
 /*
 This reducer data types:
 
@@ -22,28 +25,33 @@ scores: {
 }
 */
 
+export const scorePropType = PropTypes.shape({
+  level: PropTypes.number.isRequired,
+  allTimes: PropTypes.arrayOf(PropTypes.number).isRequired,
+  count: PropTypes.number.isRequired,
+});
+
+export const scoresPropType = PropTypes.arrayOf(scorePropType);
+
 const defaultState = {};
 
-defaultState["default"] = [];
+const DEFAULT_USERNAME = 'default';
+
+defaultState[DEFAULT_USERNAME] = [];
 
 export default (state = defaultState, action) => {
-	switch (action.type) {
-		case "USER_COMPLETED_LEVEL":
-			const currentUserScores = state[action.username]
-				? state[action.username]
-				: [];
-
-			return {
-				...state,
-				[action.username]: [
-					...currentUserScores,
-					{
-						level: action.level,
-						time: action.time
-					}
-				]
-			};
-		default:
-			return state;
-	}
+  if (action.type === ACTION.USER_COMPLETED_LEVEL) {
+    const currentUserScores = state[action.username] ? state[action.username] : [];
+    return {
+      ...state,
+      [action.username]: [
+        ...currentUserScores,
+        {
+          level: action.level,
+          time: action.time,
+        },
+      ],
+    };
+  }
+  return state;
 };
