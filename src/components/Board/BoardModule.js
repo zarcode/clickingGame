@@ -100,6 +100,24 @@ const knightGraph = (boardWidth) => {
   return graph;
 };
 
+const BOARD_WIDTH = config.boardSize;
+const MAX_NUM_SOLUTIONS = 1;
+
+export const generateBoard = (level, start) => {
+  const graph = knightGraph(BOARD_WIDTH);
+  const tours = graphTours(start, graph, MAX_NUM_SOLUTIONS);
+  // illustrateKnightsTour(tours[0], BOARD_WIDTH);
+  return tours.length > 0 ?
+    tours[0].map((item) => {
+      if (item < 10) {
+        return [0, item];
+      }
+      return [parseInt(item / 10, 10), item % 10];
+    }).slice(0, level) : null;
+};
+
+/* Helper functions */
+
 // const illustrateKnightsTour = function (tour, boardWidth) {
 //   const pad = function (n) {
 //     if ((n == null)) { return ' _'; }
@@ -125,24 +143,6 @@ const knightGraph = (boardWidth) => {
 //     return result;
 //   })();
 // };
-
-const BOARD_WIDTH = config.boardSize;
-const MAX_NUM_SOLUTIONS = 1;
-
-export const generateBoard = (level, start) => {
-  const graph = knightGraph(BOARD_WIDTH);
-  const tours = graphTours(start, graph, MAX_NUM_SOLUTIONS);
-  // illustrateKnightsTour(tours[0], BOARD_WIDTH);
-  return tours.length > 0 ?
-    tours[0].map((item) => {
-      if (item < 10) {
-        return [0, item];
-      }
-      return [parseInt(item / 10, 10), item % 10];
-    }).slice(0, level) : null;
-};
-
-/* Helper functions */
 
 export const getPossibleMovements = (C) => {
   const [Cx, Cy] = C;

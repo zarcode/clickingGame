@@ -127,7 +127,18 @@ class Board extends Component {
       });
     } else {
       this.setState({ ...this.initialState });
-      alert('We were not able to generate level. Try after refreshing the page');
+      // level generation failed
+      confirmAlert({
+        title: 'We were not able to generate level',
+        message: 'Try after refreshing the page.',
+        buttons: [
+          {
+            label: 'Ok',
+            onClick: () => {
+            },
+          },
+        ],
+      });
     }
   }
 
