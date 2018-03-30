@@ -1,7 +1,7 @@
 import { isInside } from '../../utils/index';
 import config from '../../config.json';
 
-const graphTours = function (start, graph, maxNumSolutions) {
+const graphTours = (start, graph, maxNumSolutions) => {
   // graph is an array of arrays
   // graph[3] = [4, 5] means nodes 4 and 5 are reachable from node 3
   //
@@ -16,8 +16,8 @@ const graphTours = function (start, graph, maxNumSolutions) {
   const deadEnds = graph.map(() => ({}));
   const tour = [(start[0] * 10) + start[1]];
 
-  const validNeighbors = function (i) {
-    return graph[i].reduce((acc, neighbor) => {
+  const validNeighbors = i =>
+    graph[i].reduce((acc, neighbor) => {
       if (deadEnds[i][neighbor]) {
         return acc;
       }
@@ -25,9 +25,8 @@ const graphTours = function (start, graph, maxNumSolutions) {
 
       return acc.concat([neighbor]);
     }, []);
-  };
 
-  const nextSquareToVisit = function (i) {
+  const nextSquareToVisit = (i) => {
     const arr = validNeighbors(i);
     if (arr.length === 0) { return null; }
 
@@ -69,7 +68,7 @@ const graphTours = function (start, graph, maxNumSolutions) {
 };
 
 
-const knightGraph = function (boardWidth) {
+const knightGraph = (boardWidth) => {
   // Turn the Knight's Tour into a pure graph-traversal problem
   // by precomputing all the legal moves. Returns an array of arrays,
   // where each element in any subarray is the index of a reachable node.
@@ -77,7 +76,7 @@ const knightGraph = function (boardWidth) {
     // index squares from 0 to n*n - 1
     (boardWidth * i) + j;
 
-  const reachableSquares = function (i, j) {
+  const reachableSquares = (i, j) => {
     const deltas = [[0, 3], [0, -3], [3, 0], [-3, 0], [-2, -2], [2, 2], [2, -2], [-2, 2]];
     return deltas.reduce((acc, delta) => {
       const [di, dj] = delta;

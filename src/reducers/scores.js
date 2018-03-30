@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { ACTION } from '../constants';
+import { ACTION, SCORE_PROPERTIES } from '../constants';
 
 /*
 This reducer data types:
@@ -26,9 +26,9 @@ scores: {
 */
 
 export const scorePropType = PropTypes.shape({
-  level: PropTypes.number.isRequired,
-  allTimes: PropTypes.arrayOf(PropTypes.number).isRequired,
-  count: PropTypes.number.isRequired,
+  [SCORE_PROPERTIES.LEVEL]: PropTypes.number.isRequired,
+  [SCORE_PROPERTIES.ALL_TIMES]: PropTypes.arrayOf(PropTypes.number).isRequired,
+  [SCORE_PROPERTIES.COUNT]: PropTypes.number.isRequired,
 });
 
 export const scoresPropType = PropTypes.arrayOf(scorePropType);
