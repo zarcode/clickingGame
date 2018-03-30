@@ -117,11 +117,18 @@ class Board extends Component {
       this.setState({ time: this.state.time + 1 });
     }, 1000);
 
-    // init board
-    this.setState({
-      started: true,
-      generated: generateBoard(level + 1, field),
-    });
+    const generated = generateBoard(level + 1, field);
+
+    if (generated) {
+      // init board
+      this.setState({
+        started: true,
+        generated,
+      });
+    } else {
+      this.setState({ ...this.initialState });
+      alert('We were not able to generate level. Try after refreshing the page');
+    }
   }
 
   handleLevelComplete(level, lives) {
@@ -270,6 +277,7 @@ class Board extends Component {
 
               return (
                 <button
+                  aria-label={`${x}${y}`}
                   className={`field${classes}`}
                   style={{
                     width: `${(100 / this.size).toFixed(5)}%`,

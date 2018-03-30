@@ -1,19 +1,148 @@
-import { isInside, isFieldInArray } from '../../utils/index';
+import { isInside } from '../../utils/index';
+import config from '../../config.json';
 
-/**
- * Randomize array element order in-place
- * Using Durstenfeld shuffle algorithm.
- */
-const shuffleArray = (original) => {
-  const array = [...original];
+const graphTours = (start, graph, maxNumSolutions) => {
+  // graph is an array of arrays
+  // graph[3] = [4, 5] means nodes 4 and 5 are reachable from node 3
+  //
+  // Returns an array of tours (up to maxNumSolutions in size), where
+  // each tour is an array of nodes visited in order, and where each
+  // tour visits every node in the graph exactly once.
+  //
+  // let node; changed
+  let n;
+  const completeTours = [];
+  const visited = graph.map(() => false);
+  const deadEnds = graph.map(() => ({}));
+  const tour = [(start[0] * 10) + start[1]];
 
-  for (let i = array.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  const validNeighbors = i =>
+    graph[i].reduce((acc, neighbor) => {
+      if (deadEnds[i][neighbor]) {
+        return acc;
+      }
+      if (visited[neighbor]) return acc;
+
+      return acc.concat([neighbor]);
+    }, []);
+
+  const nextSquareToVisit = (i) => {
+    const arr = validNeighbors(i);
+    if (arr.length === 0) { return null; }
+
+    // We traverse to our neighbor who has the fewest neighbors itself.
+    let fewestNeighbors = validNeighbors(arr[0]).length;
+    let neighbor = arr[0];
+    arr.map((item, k) => {
+      n = validNeighbors(arr[k]).length;
+      if (n < fewestNeighbors) {
+        fewestNeighbors = n;
+        neighbor = arr[k];
+      }
+      return true;
+    });
+    return neighbor;
+  };
+
+  while (tour.length > 0) {
+    let currentSquare = tour[tour.length - 1];
+    visited[currentSquare] = true;
+    const nextSquare = nextSquareToVisit(currentSquare);
+    if (nextSquare != null) {
+      tour.push(nextSquare);
+      if (tour.length === graph.length) {
+        completeTours.push(tour);
+        if (completeTours.length === maxNumSolutions) { break; }
+      }
+      // pessimistically call this a dead end
+      deadEnds[currentSquare][nextSquare] = true;
+      currentSquare = nextSquare;
+    } else {
+      // we backtrack
+      const doomedSquare = tour.pop();
+      deadEnds[doomedSquare] = {};
+      visited[doomedSquare] = false;
+    }
   }
-
-  return array;
+  return completeTours;
 };
+
+
+const knightGraph = (boardWidth) => {
+  // Turn the Knight's Tour into a pure graph-traversal problem
+  // by precomputing all the legal moves. Returns an array of arrays,
+  // where each element in any subarray is the index of a reachable node.
+  const index = (i, j) =>
+    // index squares from 0 to n*n - 1
+    (boardWidth * i) + j;
+
+  const reachableSquares = (i, j) => {
+    const deltas = [[0, 3], [0, -3], [3, 0], [-3, 0], [-2, -2], [2, 2], [2, -2], [-2, 2]];
+    return deltas.reduce((acc, delta) => {
+      const [di, dj] = delta;
+      const ii = i + di;
+      const jj = j + dj;
+      if (ii >= 0 && ii < boardWidth) {
+        if (jj >= 0 && jj < boardWidth) {
+          return acc.concat([index(ii, jj)]);
+        }
+      }
+      return acc;
+    }, []);
+  };
+
+  const graph = [];
+  for (let i = 0; i < boardWidth; i += 1) {
+    for (let j = 0; j < boardWidth; j += 1) {
+      graph[index(i, j)] = reachableSquares(i, j);
+    }
+  }
+  return graph;
+};
+
+// const illustrateKnightsTour = function (tour, boardWidth) {
+//   const pad = function (n) {
+//     if ((n == null)) { return ' _'; }
+//     if (n < 10) { return ` ${n}`; }
+//     return `${n}`;
+//   };
+//
+//   console.log('\n------');
+//   const moves = {};
+//   for (let i = 0; i < tour.length; i += 1) {
+//     const square = tour[i];
+//     moves[square] = i + 1;
+//   }
+//   return (() => {
+//     const result = [];
+//     for (let i = 0; i < boardWidth; i += 1) {
+//       let s = '';
+//       for (let j = 0; j < boardWidth; j += 1) {
+//         s += `  ${pad(moves[(i * boardWidth) + j])}`;
+//       }
+//       result.push(console.log(s));
+//     }
+//     return result;
+//   })();
+// };
+
+const BOARD_WIDTH = config.boardSize;
+const MAX_NUM_SOLUTIONS = 1;
+
+export const generateBoard = (level, start) => {
+  const graph = knightGraph(BOARD_WIDTH);
+  const tours = graphTours(start, graph, MAX_NUM_SOLUTIONS);
+  // illustrateKnightsTour(tours[0], BOARD_WIDTH);
+  return tours.length > 0 ?
+    tours[0].map((item) => {
+      if (item < 10) {
+        return [0, item];
+      }
+      return [parseInt(item / 10, 10), item % 10];
+    }).slice(0, level) : null;
+};
+
+/* Helper functions */
 
 export const getPossibleMovements = (C) => {
   const [Cx, Cy] = C;
@@ -29,32 +158,6 @@ export const getPossibleMovements = (C) => {
   ];
 
   return array.filter(point => isInside(point[0]) && isInside(point[1]));
-};
-
-const getNextMoves = path =>
-  shuffleArray(getPossibleMovements(path[path.length - 1]).filter(x => !isFieldInArray(x, path)));
-
-const step = (path, requiredLenght) => {
-  const moves = getNextMoves(path);
-
-  if (moves.length === 0) {
-    return path;
-  } else if (requiredLenght === path.length + 1) {
-    // don't return longer paths than required
-    return path.concat([moves[0]]);
-  }
-  for (let i = 0; i < moves.length; i += 1) {
-    const newPath = step(path.concat([moves[i]]), requiredLenght);
-
-    if (newPath.length === requiredLenght) return newPath;
-  }
-
-  return path;
-};
-
-export const generateBoard = (level, start) => {
-  const array = [start];
-  return step(array, level);
 };
 
 const isPossibleMove = (currF, nextF) => {

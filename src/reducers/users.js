@@ -35,6 +35,7 @@ export const userPropType = PropTypes.shape({
   username: PropTypes.string.isRequired,
   maxLevel: PropTypes.number.isRequired,
   lives: PropTypes.number.isRequired,
+  completedTimes: PropTypes.objectOf(PropTypes.number),
 });
 
 export const usersPropType = PropTypes.objectOf(userPropType);
