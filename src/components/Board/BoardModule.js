@@ -133,13 +133,16 @@ export const generateBoard = (level, start) => {
   const graph = knightGraph(BOARD_WIDTH);
   const tours = graphTours(start, graph, MAX_NUM_SOLUTIONS);
   // illustrateKnightsTour(tours[0], BOARD_WIDTH);
-  return tours[0].map((item) => {
-    if (item < 10) {
-      return [0, item];
-    }
-    return [parseInt(item / 10, 10), item % 10];
-  }).slice(0, level);
+  return tours.length > 0 ?
+    tours[0].map((item) => {
+      if (item < 10) {
+        return [0, item];
+      }
+      return [parseInt(item / 10, 10), item % 10];
+    }).slice(0, level) : null;
 };
+
+/* Helper functions */
 
 export const getPossibleMovements = (C) => {
   const [Cx, Cy] = C;
