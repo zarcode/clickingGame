@@ -1,4 +1,5 @@
 import { isInside } from '../../utils/index';
+import config from '../../config.json';
 
 const graphTours = function (start, graph, maxNumSolutions) {
   // graph is an array of arrays
@@ -126,7 +127,7 @@ const knightGraph = function (boardWidth) {
 //   })();
 // };
 
-const BOARD_WIDTH = 10;
+const BOARD_WIDTH = config.boardSize;
 const MAX_NUM_SOLUTIONS = 1;
 
 export const generateBoard = (level, start) => {

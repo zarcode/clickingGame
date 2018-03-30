@@ -277,6 +277,7 @@ class Board extends Component {
 
               return (
                 <button
+                  aria-label={`${x}${y}`}
                   className={`field${classes}`}
                   style={{
                     width: `${(100 / this.size).toFixed(5)}%`,

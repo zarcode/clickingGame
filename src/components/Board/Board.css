@@ -21,6 +21,10 @@
     border: 1px solid rgba(0,0,0,0.1);
 }
 
+.field:focus {
+    outline: none;
+}
+
 .field:after {
     content: "";
     display: block;
