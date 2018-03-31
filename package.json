@@ -2,12 +2,14 @@
   "name": "reactgame",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://zarcode.github.io/clickingGame",
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
+    "gh-pages": "^1.1.0",
     "prettier": "^1.11.1",
     "prettier-eslint-cli": "^4.7.1"
   },
@@ -56,6 +58,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
