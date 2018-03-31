@@ -42,12 +42,20 @@
 }
 
 .all-times .open-times {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin-left: 7px;
+    top: 1px;
+}
+
+.all-times .open-times button {
     color: darkgreen;
     font-size: 1.5em;
-    line-height: 10px;
-    position: relative;
-    top: 1px;
-    margin-left: 7px;
+    position: absolute;
+    top: -8px;
+    overflow: visible;
 }
 
 .all-times .list {

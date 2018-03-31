@@ -51,15 +51,16 @@ class Scores extends Component {
         <div className="all-times">
           <div className="first time-item">
             <span>{`${allTimes[0]} seconds`}</span>
-            <button
-              aria-label="Open List"
-              className="open-times"
-              onClick={() => {
-                this.openList(index);
-              }}
-            >
-              +
-            </button>
+            <div className="open-times">
+              <button
+                aria-label="Open List"
+                onClick={() => {
+                  this.openList(index);
+                }}
+              >
+                +
+              </button>
+            </div>
           </div>
           {this.state.lists[index] === true && (
             <div className="list">
