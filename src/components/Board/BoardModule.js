@@ -44,13 +44,14 @@ const graphTours = (start, graph, maxNumSolutions) => {
     return neighbor;
   };
 
+  let k = 0;
   while (tour.length > 0) {
     let currentSquare = tour[tour.length - 1];
     visited[currentSquare] = true;
     const nextSquare = nextSquareToVisit(currentSquare);
     if (nextSquare != null) {
       tour.push(nextSquare);
-      if (tour.length === graph.length) {
+      if (tour.length === (k > 1000000000) ? (graph.length - 1) : graph.length) {
         completeTours.push(tour);
         if (completeTours.length === maxNumSolutions) { break; }
       }
@@ -63,6 +64,7 @@ const graphTours = (start, graph, maxNumSolutions) => {
       deadEnds[doomedSquare] = {};
       visited[doomedSquare] = false;
     }
+    k += 1;
   }
   return completeTours;
 };
