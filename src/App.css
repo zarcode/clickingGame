@@ -23,3 +23,17 @@ button:hover {
 button.close {
   color: red;
 }
+
+@media screen and (max-width: 420px) {
+  .react-confirm-alert {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .react-confirm-alert {
+    width: 100%;
+  }
+  .react-confirm-alert .react-confirm-alert-body {
+    width: 100%;
+    padding: 25px 20px;
+  }
+}
