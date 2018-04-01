@@ -82,7 +82,7 @@ function limits(x, y) {
 
 /* Checks whether a square is valid and empty or not */
 function isempty(ar, x, y) {
-  return (limits(x, y)) && (ar[(y * N) + x] < 0);
+  return (limits(x, y)) && (ar[(x * N) + y] < 0);
 }
 
 /* Returns the number of empty squares adjacent
@@ -133,7 +133,7 @@ function nextMove() {
   nx = gx + cx[minDegIdx];
   ny = gy + cy[minDegIdx];
   // Mark next move
-  a[(ny * N) + nx] = a[((gy) * N) + (gx)] + 1;
+  a[(nx * N) + ny] = a[((gx) * N) + (gy)] + 1;
   // Update next point
   gx = nx;
   gy = ny;
@@ -168,9 +168,9 @@ function findClosedTour(sx, sy) {
   // var sy = Math.floor(Math.random() * (N + 1));
 
   // Current points are same as initial points
-  gx = sx;
   gy = sy;
-  a[(gy * N) + gx] = 1; // Mark first move.
+  gx = sx;
+  a[(gx * N) + gy] = 1; // Mark first move.
 
   // Keep picking next points using
   // Warnsdorff's heuristic
@@ -192,7 +192,7 @@ export const generateBoard = (level, start) => {
   let solution = null;
   // While we don't get a solution
   while (true) {
-    solution = findClosedTour(start[1], start[0]);
+    solution = findClosedTour(start[0], start[1]);
     if (solution) {
       break;
     }
