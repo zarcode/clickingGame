@@ -1,7 +1,6 @@
 import { isInside } from '../../utils/index';
 import config from '../../config.json';
 
-
 /* Helper functions */
 
 export const getPossibleMovements = (C) => {
@@ -42,6 +41,8 @@ export const checkSolution = (level, solution) => {
     return acc;
   }, true);
 };
+
+/* Helper functions End */
 
 // function uniqueArray(a) {
 //   return a.filter((item, pos) => {
