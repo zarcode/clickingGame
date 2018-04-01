@@ -1,157 +1,7 @@
 import { isInside } from '../../utils/index';
 import config from '../../config.json';
 
-const graphTours = (start, graph, maxNumSolutions) => {
-  // graph is an array of arrays
-  // graph[3] = [4, 5] means nodes 4 and 5 are reachable from node 3
-  //
-  // Returns an array of tours (up to maxNumSolutions in size), where
-  // each tour is an array of nodes visited in order, and where each
-  // tour visits every node in the graph exactly once.
-  //
-  // let node; changed
-  let n;
-  const completeTours = [];
-  const visited = graph.map(() => false);
-  const deadEnds = graph.map(() => ({}));
-  const tour = [(start[0] * 10) + start[1]];
-
-  const validNeighbors = i =>
-    graph[i].reduce((acc, neighbor) => {
-      if (deadEnds[i][neighbor]) {
-        return acc;
-      }
-      if (visited[neighbor]) return acc;
-
-      return acc.concat([neighbor]);
-    }, []);
-
-  const nextSquareToVisit = (i) => {
-    const arr = validNeighbors(i);
-    if (arr.length === 0) { return null; }
-
-    // We traverse to our neighbor who has the fewest neighbors itself.
-    let fewestNeighbors = validNeighbors(arr[0]).length;
-    let neighbor = arr[0];
-    arr.map((item, k) => {
-      n = validNeighbors(arr[k]).length;
-      if (n < fewestNeighbors) {
-        fewestNeighbors = n;
-        neighbor = arr[k];
-      }
-      return true;
-    });
-    return neighbor;
-  };
-  while (tour.length > 0) {
-    let currentSquare = tour[tour.length - 1];
-    visited[currentSquare] = true;
-    const nextSquare = nextSquareToVisit(currentSquare);
-    if (nextSquare != null) {
-      tour.push(nextSquare);
-      if (tour.length === graph.length) {
-        completeTours.push(tour);
-        if (completeTours.length === maxNumSolutions) { break; }
-      }
-      // pessimistically call this a dead end
-      deadEnds[currentSquare][nextSquare] = true;
-      currentSquare = nextSquare;
-    } else {
-      // we backtrack
-      const doomedSquare = tour.pop();
-      deadEnds[doomedSquare] = {};
-      visited[doomedSquare] = false;
-    }
-  }
-  return completeTours;
-};
-
-
-const knightGraph = (boardWidth) => {
-  // Turn the Knight's Tour into a pure graph-traversal problem
-  // by precomputing all the legal moves. Returns an array of arrays,
-  // where each element in any subarray is the index of a reachable node.
-  const index = (i, j) =>
-    // index squares from 0 to n*n - 1
-    (boardWidth * i) + j;
-
-  const reachableSquares = (i, j) => {
-    const deltas = [[0, 3], [0, -3], [3, 0], [-3, 0], [-2, -2], [2, 2], [2, -2], [-2, 2]];
-    return deltas.reduce((acc, delta) => {
-      const [di, dj] = delta;
-      const ii = i + di;
-      const jj = j + dj;
-      if (ii >= 0 && ii < boardWidth) {
-        if (jj >= 0 && jj < boardWidth) {
-          return acc.concat([index(ii, jj)]);
-        }
-      }
-      return acc;
-    }, []);
-  };
-
-  const graph = [];
-  for (let i = 0; i < boardWidth; i += 1) {
-    for (let j = 0; j < boardWidth; j += 1) {
-      graph[index(i, j)] = reachableSquares(i, j);
-    }
-  }
-  return graph;
-};
-
-const BOARD_WIDTH = config.boardSize;
-const MAX_NUM_SOLUTIONS = 1;
-
-export const generateBoard = (level, start) => {
-  // illustrateKnightsTour(tours[0], BOARD_WIDTH);
-  if (level === 100) {
-    const all = [];
-    for (let i = 0; i < BOARD_WIDTH; i += 1) {
-      for (let j = 0; j < BOARD_WIDTH; j += 1) {
-        all.push([i, j]);
-      }
-    }
-    return all;
-  }
-
-  const graph = knightGraph(BOARD_WIDTH);
-  const tours = graphTours(start, graph, MAX_NUM_SOLUTIONS);
-  return tours.length > 0 ?
-    tours[0].map((item) => {
-      if (item < 10) {
-        return [0, item];
-      }
-      return [parseInt(item / 10, 10), item % 10];
-    }).slice(0, level) : null;
-};
-
 /* Helper functions */
-
-// const illustrateKnightsTour = function (tour, boardWidth) {
-//   const pad = function (n) {
-//     if ((n == null)) { return ' _'; }
-//     if (n < 10) { return ` ${n}`; }
-//     return `${n}`;
-//   };
-//
-//   console.log('\n------');
-//   const moves = {};
-//   for (let i = 0; i < tour.length; i += 1) {
-//     const square = tour[i];
-//     moves[square] = i + 1;
-//   }
-//   return (() => {
-//     const result = [];
-//     for (let i = 0; i < boardWidth; i += 1) {
-//       let s = '';
-//       for (let j = 0; j < boardWidth; j += 1) {
-//         s += `  ${pad(moves[(i * boardWidth) + j])}`;
-//       }
-//       result.push(console.log(s));
-//     }
-//     return result;
-//   })();
-// };
 
 export const getPossibleMovements = (C) => {
   const [Cx, Cy] = C;
@@ -190,4 +40,162 @@ export const checkSolution = (level, solution) => {
 
     return acc;
   }, true);
+};
+
+/* Helper functions End */
+
+// function uniqueArray(a) {
+//   return a.filter((item, pos) => {
+//     const index = a.findIndex(x => x[0] === item[0] && x[1] === item[1]);
+//     return index === pos;
+//     // return a.indexOf(item) == pos;
+//   });
+// }
+
+function print(a) {
+  const array = [];
+  for (let i = 1; i <= 100; i += 1) {
+    const index = a.findIndex(item => item === i);
+    array.push([parseInt(index / 10, 10), index % 10]);
+  }
+
+  return array;
+}
+
+// ES6 program to for Knight's tour problem using
+// Warnsdorff's algorithm
+const N = config.boardSize;
+let gx;
+let gy;
+const a = [];
+
+// Move pattern on basis of the change of
+// x coordinates and y coordinates respectively
+const cx = [3, -3, 0, 0, 2, -2, 2, -2];
+const cy = [0, 0, 3, -3, 2, -2, -2, 2];
+
+// function restricts the knight to remain within
+// the 8x8 chessboard
+function limits(x, y) {
+  return ((x >= 0 && y >= 0) && (x < N && y < N));
+}
+
+/* Checks whether a square is valid and empty or not */
+function isempty(ar, x, y) {
+  return (limits(x, y)) && (ar[(y * N) + x] < 0);
+}
+
+/* Returns the number of empty squares adjacent
+ to (x, y) */
+function getDegree(ar, x, y) {
+  let count = 0;
+  for (let i = 0; i < N; i += 1) {
+    if (isempty(ar, (x + cx[i]), (y + cy[i]))) {
+      count += 1;
+    }
+  }
+
+  return count;
+}
+
+// Picks next point using Warnsdorff's heuristic.
+// Returns false if it is not possible to pick
+// next point.
+function nextMove() {
+  let minDegIdx = -1;
+  let c;
+  let minDeg = (N + 1);
+  let nx;
+  let ny;
+
+  // Try all N adjacent of (*x, *y) starting
+  // from a random adjacent. Find the adjacent
+  // with minimum degree.
+  const start = Math.floor(Math.random() * (N + 1));
+  for (let count = 0; count < N; count += 1) {
+    const i = (start + count) % N;
+    nx = gx + cx[i];
+    ny = gy + cy[i];
+
+    c = getDegree(a, nx, ny);
+    if ((isempty(a, nx, ny)) && c < minDeg) {
+      minDegIdx = i;
+      minDeg = c;
+    }
+  }
+
+  // IF we could not find a next cell
+  if (minDegIdx === -1) {
+    return false;
+  }
+
+  // Store coordinates of next point
+  nx = gx + cx[minDegIdx];
+  ny = gy + cy[minDegIdx];
+  // Mark next move
+  a[(ny * N) + nx] = a[((gy) * N) + (gx)] + 1;
+  // Update next point
+  gx = nx;
+  gy = ny;
+
+  return true;
+}
+
+/* checks its neighbouring sqaures */
+/* If the knight ends on a square that is one
+knight's move from the beginning square,
+then tour is closed */
+function neighbour(x, y, xx, yy) {
+  for (let i = 0; i < N; i += 1) {
+    if (((x + cx[i]) === xx) && ((y + cy[i]) === yy)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/* Generates the legal moves using warnsdorff's
+heuristics. Returns false if not possible */
+function findClosedTour(sx, sy) {
+  // Filling up the chessboard matrix with -1's
+  for (let i = 0; i < N * N; i += 1) {
+    a[i] = -1;
+  }
+
+  // Randome initial position
+  // var sx = Math.floor(Math.random() * (N + 1));
+  // var sy = Math.floor(Math.random() * (N + 1));
+
+  // Current points are same as initial points
+  gx = sx;
+  gy = sy;
+  a[(gy * N) + gx] = 1; // Mark first move.
+
+  // Keep picking next points using
+  // Warnsdorff's heuristic
+  for (let i = 0; i < (N * N) - 1; i += 1) {
+    if (nextMove() === false) {
+      return false;
+    }
+  }
+
+  // Check if tour is closed (Can end
+  // at starting point)
+  if (!neighbour(gx, gy, sx, sy)) {
+    return false;
+  }
+  return print(a);
+}
+
+export const generateBoard = (level, start) => {
+  let solution = null;
+  // While we don't get a solution
+  while (true) {
+    solution = findClosedTour(start[1], start[0]);
+    if (solution) {
+      break;
+    }
+  }
+  return solution.slice(0, level);
 };
