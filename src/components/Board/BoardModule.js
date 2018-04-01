@@ -42,15 +42,12 @@ export const checkSolution = (level, solution) => {
   }, true);
 };
 
-/* Helper functions End */
+export const uniqueArray = a => a.filter((item, pos) => {
+  const index = a.findIndex(x => x[0] === item[0] && x[1] === item[1]);
+  return index === pos;
+});
 
-// function uniqueArray(a) {
-//   return a.filter((item, pos) => {
-//     const index = a.findIndex(x => x[0] === item[0] && x[1] === item[1]);
-//     return index === pos;
-//     // return a.indexOf(item) == pos;
-//   });
-// }
+/* Helper functions End */
 
 function print(a) {
   const array = [];
@@ -188,7 +185,7 @@ function findClosedTour(sx, sy) {
   return print(a);
 }
 
-export const generateBoard = (level, start) => {
+export const getSolution = (start) => {
   let solution = null;
   // While we don't get a solution
   while (true) {
@@ -197,5 +194,7 @@ export const generateBoard = (level, start) => {
       break;
     }
   }
-  return solution.slice(0, level);
+  return solution;
 };
+
+export const generateBoard = (level, start) => getSolution(start).slice(0, level);

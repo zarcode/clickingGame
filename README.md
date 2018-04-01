@@ -1,6 +1,6 @@
 ## Description:
 Game made in React + Redux.
-Levels are getting generated based on modified [Knight's Tour](https://en.wikipedia.org/wiki/Knight%27s_tour) algorithm that uses backtracking.
+Levels are getting generated based on modified [Warnsdorff’s algorithm for Knight’s tour problem](https://www.geeksforgeeks.org/warnsdorffs-algorithm-knights-tour-problem/) (Rewriten in ES6).
 
 On first click level with fields is being generated.
 Next, player can click only fields that are on the specific distance of previously clicked (marked yellow).
