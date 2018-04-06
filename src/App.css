@@ -20,7 +20,7 @@ button:hover {
   background-color: transparent;
 }
 
-button.close {
+button.close, .sectionTitle {
   color: red;
 }
 

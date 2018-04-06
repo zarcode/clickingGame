@@ -4,44 +4,52 @@
     padding: 0 0 20px;
 }
 
+@media screen and (min-width: 100vh) {
+    .score {
+        flex: 1;
+        min-width: 320px;
+        /*margin-left: 10px;*/
+    }
+}
+
 .score .sectionTitle {
     padding-left: 5px;
 }
 
-.top-score {
+.topScore {
     padding-left: 10px;
     padding-right: 10px;
     overflow: hidden;
 }
 
-.top-score table {
+.topScore table {
     width: 100%;
 }
 
-.top-score th, .top-score td {
+.topScore th, .topScore td {
     text-align: center;
     vertical-align: top;
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.top-score th:first-child, .top-score td:first-child {
+.topScore th:first-child, .topScore td:first-child {
     width: 20%;
     text-align: left;
     min-width: 70px;
 }
 
-.top-score th:nth-child(2), .top-score td:nth-child(2) {
+.topScore th:nth-child(2), .topScore td:nth-child(2) {
     min-width: 134px;
 }
 
-.top-score th:last-child, .top-score td:last-child {
+.topScore th:last-child, .topScore td:last-child {
     max-width: 136px;
     min-width: 90px;
     width: 136px;
 }
 
-.all-times .open-times {
+.allTimes .openTimes {
     position: relative;
     width: 14px;
     height: 14px;
@@ -50,7 +58,7 @@
     top: 1px;
 }
 
-.all-times .open-times button {
+.allTimes .openTimes button {
     color: darkgreen;
     font-size: 1.5em;
     position: absolute;
@@ -58,11 +66,11 @@
     overflow: visible;
 }
 
-.all-times .list {
+.allTimes .list {
     background-color: darkgray;
 }
 
-.top-score .time-item {
+.topScore .timeItem {
     max-width: 144px;
     margin-left: auto;
     margin-right: auto;
@@ -70,7 +78,7 @@
     white-space: nowrap;
 }
 
-.all-times .list {
+.allTimes .list {
     position: relative;
     max-width: 250px;
     margin-left: auto;
@@ -78,7 +86,7 @@
     text-align: left;
 }
 
-.all-times .close-times {
+.allTimes .closeTimes {
     position: absolute;
     bottom: 3px;
     right: 4px;

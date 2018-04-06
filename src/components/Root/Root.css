@@ -3,16 +3,6 @@
         display: flex;
         flex-wrap: wrap;
     }
-
-    .score {
-        flex: 1;
-        min-width: 320px;
-        /*margin-left: 10px;*/
-    }
-}
-
-.sectionTitle {
-    color: red;
 }
 
 .startBar {
@@ -32,18 +22,18 @@
     margin-right: 5px;
 }
 
-.choose-player-dialog strong {
+.choosePlayerDialog strong {
     display: block;
     margin-bottom: 8px;
 }
 
-.choose-player-dialog .close {
+.choosePlayerDialog .close {
     float: right;
     margin-top: -12px;
     margin-right: -10px;
 }
 
-.choose-player-dialog ul {
+.choosePlayerDialog ul {
     list-style: none;
     padding-left: 0;
     margin-bottom: 22px;
@@ -52,10 +42,10 @@
     -moz-columns: 3;
 }
 
-.choose-player-dialog ul li {
+.choosePlayerDialog ul li {
     margin-bottom: 3px;
 }
 
-.choose-player-dialog input {
+.choosePlayerDialog input {
     margin-right: 10px;
 }

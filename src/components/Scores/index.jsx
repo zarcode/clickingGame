@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 
 import { scoresPropType } from '../../reducers/scores';
 import { SCORE_PROPERTIES } from '../../constants/';
-import './Scores.css';
+import styles from './Scores.css';
 import reduceScores from './ScoresModule';
+
+const uniqid = require('uniqid');
 
 class Scores extends Component {
   constructor(props) {
@@ -48,10 +50,10 @@ class Scores extends Component {
       });
 
       return (
-        <div className="all-times">
-          <div className="first time-item">
+        <div className={styles.allTimes}>
+          <div className={`${styles.first} ${styles.timeItem}`}>
             <span>{`${allTimes[0]} seconds`}</span>
-            <div className="open-times">
+            <div className={styles.openTimes}>
               <button
                 aria-label="Open List"
                 onClick={() => {
@@ -63,10 +65,10 @@ class Scores extends Component {
             </div>
           </div>
           {this.state.lists[index] === true && (
-            <div className="list">
-              {allTimes.map(time => <div className="time-item">{`${time} seconds`}</div>)}
+            <div className={styles.list}>
+              {allTimes.map(time => <div key={uniqid()} className={styles.timeItem}>{`${time} seconds`}</div>)}
               <button
-                className="close close-times"
+                className={`close ${styles.closeTimes}`}
                 aria-label="Close"
                 onClick={() => {
                   this.closeList(index);
@@ -85,9 +87,9 @@ class Scores extends Component {
 
   render() {
     return (
-      <div className="score">
-        <div className="top-score">
-          <h3 className="sectionTitle">Top Score</h3>
+      <div className={styles.score}>
+        <div className={styles.topScore}>
+          <h3 className={`sectionTitle ${styles.sectionTitle}`}>Top Score</h3>
           <hr />
           {this.props.scores.length !== 0 && (
             <table>
@@ -95,7 +97,7 @@ class Scores extends Component {
                 <tr>
                   <th>Level</th>
                   <th>
-                    <div className="time-item">Time</div>
+                    <div className={styles.timeItem}>Time</div>
                   </th>
                   <th>Times complited</th>
                 </tr>

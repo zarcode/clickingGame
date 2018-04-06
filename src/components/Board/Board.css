@@ -1,4 +1,4 @@
-.board-wrap {
+.boardWrap {
     flex: 5;
     padding: 0 10px 10px 10px;
 }
@@ -11,7 +11,7 @@
 }
 
 @media screen and (min-width: 100vh) {
-    .board-wrap {
+    .boardWrap {
         min-width: calc(100vh - 60px);
         max-width: calc(100vh - 60px);
     }

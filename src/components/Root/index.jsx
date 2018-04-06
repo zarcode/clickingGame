@@ -9,7 +9,7 @@ import { usersPropType } from '../../reducers/users';
 import { currentUserPropType } from '../../reducers/currentUser';
 import { initNewUser } from '../../actions/users';
 import setCurrentUser from '../../actions/currentUser';
-import './Root.css';
+import styles from './Root.css';
 import Board from '../Board';
 import Scores from '../Scores';
 
@@ -34,8 +34,8 @@ class Root extends Component {
   showChoosePlayer() {
     confirmAlert({
       customUI: ({ onClose }) => (
-        <div className="react-confirm-alert-body choose-player-dialog">
-          <button className="close" aria-label="Close" onClick={onClose}>
+        <div className={`${styles.choosePlayerDialog} react-confirm-alert-body`}>
+          <button className={`${styles.close} close`} aria-label="Close" onClick={onClose}>
             X
           </button>
           <div className="field-set">
@@ -94,7 +94,7 @@ class Root extends Component {
   render() {
     return (
       <div className="app-wrapper">
-        <div className="startBar">
+        <div className={styles.startBar}>
           {this.props.currentUser && (
             <div>
               <strong>Current Player:</strong>
@@ -103,7 +103,7 @@ class Root extends Component {
           )}
           <button onClick={this.showChoosePlayer}>Choose player</button>
         </div>
-        <div className="app">
+        <div className={styles.app}>
           <Board currentUser={this.props.users[this.props.currentUser]} />
           <Scores currentUser={this.props.users[this.props.currentUser]} />
         </div>

@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 // import { purgeStoredState } from 'redux-persist'
 // import { persistConfig } from  "../../configureStore"
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { userPropType } from '../../reducers/users';
 import * as userActions from '../../actions/users';
 import config from '../../config.json';
-import './Board.css';
+import styles from './Board.css';
 import { generateBoard, getPossibleMovements } from './BoardModule';
 import { isFieldInArray } from '../../utils';
 import BoardStats from './BoardStats';
@@ -45,7 +44,7 @@ class Board extends Component {
 
     this.timer = null; // timer interval
 
-    this.showLevelChoice = this.showLevelChoice.bind(this);
+
     this.selectLevel = this.selectLevel.bind(this);
     this.startNewLevel = this.startNewLevel.bind(this);
     this.handleLevelComplete = this.handleLevelComplete.bind(this);
@@ -268,8 +267,8 @@ class Board extends Component {
     const { level } = this.state;
 
     return (
-      <div className="board-wrap">
-        <div className="board">
+      <div className={styles.boardWrap}>
+        <div className={styles.board}>
           {this.board.map(x =>
             this.board.map((y) => {
               const field = [x, y];
@@ -281,15 +280,15 @@ class Board extends Component {
               // "possible" => field that can be select based on last selected
               // "selected" => already selected filed
               const classes =
-                (isFieldInArray(field, this.state.generated) ? ' passive' : '') +
-                (this.state.generated.length === 0 ? ' initial' : '') +
-                (isPossible ? ' possible' : '') +
-                (isFieldInArray(field, this.state.selected) ? ' selected' : '');
+                (isFieldInArray(field, this.state.generated) ? ` ${styles.passive}` : '') +
+                (this.state.generated.length === 0 ? ` ${styles.initial}` : '') +
+                (isPossible ? ` ${styles.possible}` : '') +
+                (isFieldInArray(field, this.state.selected) ? ` ${styles.selected}` : '');
 
               return (
                 <button
                   aria-label={`${x}${y}`}
-                  className={`field${classes}`}
+                  className={`${styles.field}${classes}`}
                   style={{
                     width: `${(100 / this.size).toFixed(5)}%`,
                   }}
