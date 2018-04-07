@@ -15,10 +15,6 @@ class Scores extends Component {
     this.state = {
       lists: props.scores.map(() => false),
     };
-
-    this.openList = this.openList.bind(this);
-    this.closeList = this.closeList.bind(this);
-    this.drawCell = this.drawCell.bind(this);
   }
 
   openList(index) {

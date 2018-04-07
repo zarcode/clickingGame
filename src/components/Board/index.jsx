@@ -43,13 +43,6 @@ class Board extends Component {
     }
 
     this.timer = null; // timer interval
-
-
-    this.selectLevel = this.selectLevel.bind(this);
-    this.startNewLevel = this.startNewLevel.bind(this);
-    this.handleLevelComplete = this.handleLevelComplete.bind(this);
-    this.handleLevelFail = this.handleLevelFail.bind(this);
-    this.fieldClick = this.fieldClick.bind(this);
   }
 
   componentDidMount() {

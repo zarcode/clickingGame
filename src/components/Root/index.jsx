@@ -14,14 +14,6 @@ import Board from '../Board';
 import Scores from '../Scores';
 
 class Root extends Component {
-  constructor(props) {
-    super(props);
-
-    this.chooseUser = this.chooseUser.bind(this);
-    this.createNewUser = this.createNewUser.bind(this);
-    this.showChoosePlayer = this.showChoosePlayer.bind(this);
-  }
-
   chooseUser(username) {
     this.props.actions.setCurrentUser(username);
   }
@@ -101,7 +93,7 @@ class Root extends Component {
               <span>{this.props.currentUser}</span>
             </div>
           )}
-          <button onClick={this.showChoosePlayer}>Choose player</button>
+          <button onClick={() => { this.showChoosePlayer(); }}>Choose player</button>
         </div>
         <div className={styles.app}>
           <Board currentUser={this.props.users[this.props.currentUser]} />
