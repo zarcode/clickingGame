@@ -17,17 +17,17 @@ class Scores extends Component {
     };
   }
 
-  openList(index) {
+  openList = index => () => {
     const newLists = this.state.lists;
     newLists[index] = true;
     this.setState({ lists: newLists });
-  }
+  };
 
-  closeList(index) {
+  closeList = index => () => {
     const newLists = this.state.lists;
     newLists[index] = false;
     this.setState({ lists: newLists });
-  }
+  };
 
   drawCell(scoreItem, property, index) {
     if (property === SCORE_PROPERTIES.LEVEL) {
@@ -52,9 +52,7 @@ class Scores extends Component {
             <div className={styles.openTimes}>
               <button
                 aria-label="Open List"
-                onClick={() => {
-                  this.openList(index);
-                }}
+                onClick={this.openList(index)}
               >
                 +
               </button>
@@ -66,9 +64,7 @@ class Scores extends Component {
               <button
                 className={`close ${styles.closeTimes}`}
                 aria-label="Close"
-                onClick={() => {
-                  this.closeList(index);
-                }}
+                onClick={this.closeList(index)}
               >
                 X
               </button>

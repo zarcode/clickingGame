@@ -14,16 +14,31 @@ import Board from '../Board';
 import Scores from '../Scores';
 
 class Root extends Component {
-  chooseUser(username) {
+  chooseUser = (username, onClose) => () => {
     this.props.actions.setCurrentUser(username);
-  }
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  };
+
+  createNewUserHandler = onClose => () => {
+    const username = this.newPlayer.value;
+    if (!username) return false;
+
+    this.createNewUser(username);
+    setTimeout(() => {
+      onClose();
+    }, 300);
+
+    return true;
+  };
 
   createNewUser(username) {
     this.props.actions.initNewUser(username);
     this.props.actions.setCurrentUser(username);
   }
 
-  showChoosePlayer() {
+  showChoosePlayer = () => {
     confirmAlert({
       customUI: ({ onClose }) => (
         <div className={`${styles.choosePlayerDialog} react-confirm-alert-body`}>
@@ -36,12 +51,7 @@ class Root extends Component {
               {Object.keys(this.props.users).map(username => (
                 <li key={username}>
                   <button
-                    onClick={() => {
-                      this.chooseUser(username);
-                      setTimeout(() => {
-                        onClose();
-                      }, 300);
-                    }}
+                    onClick={this.chooseUser(username, onClose)}
                   >
                     {username}
                   </button>
@@ -61,17 +71,7 @@ class Root extends Component {
                   }}
                 />
                 <button
-                  onClick={() => {
-                    const username = this.newPlayer.value;
-                    if (!username) return false;
-
-                    this.createNewUser(username);
-                    setTimeout(() => {
-                      onClose();
-                    }, 300);
-
-                    return true;
-                  }}
+                  onClick={this.createNewUserHandler(onClose)}
                 >
                   Choose
                 </button>
@@ -93,7 +93,7 @@ class Root extends Component {
               <span>{this.props.currentUser}</span>
             </div>
           )}
-          <button onClick={() => { this.showChoosePlayer(); }}>Choose player</button>
+          <button onClick={this.showChoosePlayer}>Choose player</button>
         </div>
         <div className={styles.app}>
           <Board currentUser={this.props.users[this.props.currentUser]} />

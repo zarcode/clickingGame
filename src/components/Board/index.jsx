@@ -86,10 +86,7 @@ class Board extends Component {
           </div>
           <div className="react-confirm-alert-button-group">
             <button
-              onClick={() => {
-                this.selectLevel(parseInt(this.chooseLevel.value, 10));
-                onClose();
-              }}
+              onClick={this.selectLevelHandler(onClose)}
             >
               OK
             </button>
@@ -98,10 +95,11 @@ class Board extends Component {
       ),
     });
   }
-
-  selectLevel(level) {
+  selectLevelHandler = onClose => () => {
+    const level = parseInt(this.chooseLevel.value, 10);
+    onClose();
     this.setState({ ...this.initialState, level });
-  }
+  };
 
   startNewLevel(field, level) {
     // run timer
@@ -126,8 +124,6 @@ class Board extends Component {
         buttons: [
           {
             label: 'Ok',
-            onClick: () => {
-            },
           },
         ],
       });
@@ -143,7 +139,16 @@ class Board extends Component {
     );
   }
 
-  handleLevelFail(level, lives, moves) {
+  prepareNewLevelState = level => () => {
+    // reset board
+    if (level === config.levelsLimit) {
+      this.setState({ ...this.initialState, level: startLevel });
+    } else {
+      this.setState({ ...this.initialState, level: level + 1 });
+    }
+  };
+
+  handleLevelFail = (level, lives, moves, reset) => () => {
     // reset counter
     clearInterval(this.timer);
     // alert("You are out of moves");
@@ -159,9 +164,14 @@ class Board extends Component {
         level: startLevel,
       });
     }
-  }
 
-  fieldClick(field, level, lives, isPossible) {
+    if (reset) {
+      // reset board
+      this.setState({ ...this.initialState });
+    }
+  };
+
+  fieldClick = (field, level, lives, isPossible) => () => {
     // if game started let user click only "possible" fields
     if (!isPossible && this.state.started) return false;
 
@@ -192,14 +202,13 @@ class Board extends Component {
         title: 'End game',
         message: 'You lost this game. Do you want to play again?',
         buttons: [
-          { label: 'No', onClick: () => {} },
+          {
+            label: 'No',
+            onClick: this.handleLevelFail(level, lives, moves, false),
+          },
           {
             label: 'Yes',
-            onClick: () => {
-              this.handleLevelFail(level, lives, moves);
-              // reset board
-              this.setState(this.initialState);
-            },
+            onClick: this.handleLevelFail(level, lives, moves, true),
           },
         ],
       });
@@ -228,17 +237,10 @@ class Board extends Component {
         title: successTitle,
         message: successMessage,
         buttons: [
-          { label: 'No', onClick: () => {} },
+          { label: 'No' },
           {
             label: 'Yes',
-            onClick: () => {
-              // reset board
-              if (level === config.levelsLimit) {
-                this.setState({ ...this.initialState, level: startLevel });
-              } else {
-                this.setState({ ...this.initialState, level: level + 1 });
-              }
-            },
+            onClick: this.prepareNewLevelState(level),
           },
         ],
       });
@@ -285,7 +287,7 @@ class Board extends Component {
                   style={{
                     width: `${(100 / this.size).toFixed(5)}%`,
                   }}
-                  onClick={() => this.fieldClick(field, level, lives, isPossible)}
+                  onClick={this.fieldClick(field, level, lives, isPossible)}
                   key={`${x}${y}`}
                 />
               );
