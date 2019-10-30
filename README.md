@@ -3,7 +3,7 @@ Game made in React + Redux.
 Levels are being generated based on modified [Warnsdorff’s algorithm for Knight’s tour problem](https://www.geeksforgeeks.org/warnsdorffs-algorithm-knights-tour-problem/) (Rewriten in ES6).
 
 On first click level with fields is being generated.
-Next, player can click only fields that are on the specific distance of previously clicked (marked yellow).
+Next, player can click only fields that are on the specific distance from previously clicked (marked yellow).
 Possible moves will follow this rule:
 
 ![Screenshot](movements.png)
